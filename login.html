@@ -1,12 +1,151 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-full" lang="en">
+
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login | ProjectTrack</title>
+
+    <!-- Tailwind CDN, tarpor amader config file (ei order ta thik rakhte hobe) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind-config.js"></script>
+
+    <!-- Font ar icon -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- Amader nijer css -->
+    <link href="css/style.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Hii </h1>
+
+<body
+    class="min-h-full bg-background font-body-md text-body-md text-on-surface flex flex-col relative selection:bg-primary-fixed selection:text-on-primary-fixed">
+
+    <!-- Background er halka design -->
+    <div class="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
+        <div
+            class="absolute -top-[20%] left-1/2 -translate-x-1/2 w-[720px] h-[480px] rounded-full bg-surface-container-high/60 blur-[120px]">
+        </div>
+        <div
+            class="absolute inset-0 bg-[radial-gradient(#c7c4d8_1px,transparent_1px)] [background-size:24px_24px] opacity-25">
+        </div>
+    </div>
+
+    <!-- Upore logo -->
+    <header class="w-full flex-shrink-0">
+        <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin h-16 flex items-center justify-between">
+            <div class="flex items-center gap-space-sm">
+                <div
+                    class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary shadow-sm">
+                    <span class="material-symbols-outlined text-[20px]">school</span>
+                </div>
+                <div class="flex flex-col">
+                    <span
+                        class="font-title-md text-title-md text-on-surface leading-tight tracking-tight">ProjectTrack</span>
+                    <span
+                        class="font-label-sm text-label-sm text-on-surface-variant font-medium hidden sm:inline-block">Collaboration
+                        &amp; Progress Tracking</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Majhkhane login card -->
+    <main class="flex-1 flex flex-col justify-center items-center w-full px-margin-mobile md:px-margin py-space-xl">
+        <div class="relative w-full max-w-md mx-auto">
+            <div
+                class="absolute -top-12 -left-12 w-48 h-48 bg-primary-fixed/40 rounded-full blur-3xl pointer-events-none -z-10">
+            </div>
+            <div
+                class="absolute -bottom-10 -right-10 w-44 h-44 bg-surface-container-high/70 rounded-full blur-3xl pointer-events-none -z-10">
+            </div>
+
+            <div class="bg-surface-container-lowest rounded-2xl shadow-xl shadow-primary-container/5 p-8 sm:p-10">
+
+                <!-- Card er upor er title -->
+                <div class="flex flex-col items-center text-center mb-space-lg">
+                    <div class="relative mb-space-md p-2 rounded-2xl bg-surface-container-low">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-primary-container flex items-center justify-center text-on-primary">
+                            <span class="material-symbols-outlined text-[32px]">school</span>
+                        </div>
+                    </div>
+                    <h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-snug">
+                        Student Project Collaboration <br class="hidden sm:inline" />&amp; Progress Tracking System
+                    </h1>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant mt-2 max-w-xs leading-relaxed">
+                        Welcome back! Please enter your email and password to open your workspace.
+                    </p>
+                </div>
+
+                <!-- Error message (ekhon lukano, pore JS diye dekhabo) -->
+                <div id="errorBox"
+                    class="hidden mb-space-md items-start gap-2 rounded-xl bg-error-container text-on-error-container px-4 py-3 font-body-sm text-body-sm">
+                    <span class="material-symbols-outlined text-[18px]">error</span>
+                    <span>Email ba password thik nai. Abar try koro.</span>
+                </div>
+
+                <!-- Login form -->
+                <form id="loginForm" class="space-y-4">
+
+                    <div class="flex flex-col text-left">
+                        <label class="font-label-md text-label-md text-on-surface mb-1.5" for="email">Email</label>
+                        <div class="relative flex items-center">
+                            <span
+                                class="material-symbols-outlined absolute left-3.5 text-[20px] text-outline pointer-events-none">mail</span>
+                            <input id="email" type="email" required autofocus autocomplete="email"
+                                placeholder="student@university.edu"
+                                class="w-full bg-surface-container-low/30 text-on-surface placeholder:text-outline-variant font-body-sm text-body-sm pl-11 pr-4 py-2.5 rounded-xl transition-all duration-150 outline-none shadow-sm focus:bg-surface-container-lowest focus:shadow-[0_0_0_4px_rgba(79,70,229,0.12)]" />
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col text-left">
+                        <label class="font-label-md text-label-md text-on-surface mb-1.5"
+                            for="password">Password</label>
+                        <div class="relative flex items-center">
+                            <span
+                                class="material-symbols-outlined absolute left-3.5 text-[20px] text-outline pointer-events-none">lock</span>
+                            <input id="password" type="password" required autocomplete="current-password"
+                                placeholder="••••••••"
+                                class="w-full bg-surface-container-low/30 text-on-surface placeholder:text-outline-variant font-body-sm text-body-sm pl-11 pr-11 py-2.5 rounded-xl transition-all duration-150 outline-none shadow-sm focus:bg-surface-container-lowest focus:shadow-[0_0_0_4px_rgba(79,70,229,0.12)]" />
+                            <button type="button" id="togglePassword" aria-label="Toggle password visibility"
+                                class="absolute right-2.5 p-1 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container transition-colors flex items-center justify-center focus:outline-none">
+                                <span id="eyeIcon" class="material-symbols-outlined text-[20px]">visibility</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit"
+                            class="w-full bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md py-3 px-5 rounded-xl shadow-md shadow-primary-container/25 active:scale-[0.99] transition-all duration-150 flex items-center justify-center gap-2 group">
+                            <span>Sign In to Workspace</span>
+                            <span
+                                class="material-symbols-outlined text-[18px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Register link -->
+                <div class="mt-6 pt-5 text-center">
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">
+                        Don't have an account?
+                        <a class="font-label-md text-label-md text-primary-container hover:text-primary transition-colors hover:underline ml-1"
+                            href="register.html">Register</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full flex-shrink-0">
+        <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin py-space-md text-center sm:text-left">
+            <p class="font-body-sm text-body-sm text-on-surface-variant">© 2026 ProjectTrack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/login.js"></script>
 </body>
+
 </html>
