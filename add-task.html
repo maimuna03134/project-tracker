@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html class="h-full" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task | ProjectTrack</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+
+    <style></style> <!-- Amader shob design ei ekta css file e -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body class="bg-surface font-body-md text-body-md text-on-surface">
+
+    <header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+        <div class="h-20 w-full px-gutter flex items-center justify-between">
+
+            <div class="flex items-center gap-space-xl">
+                <a href="dashboard.html" class="flex items-center gap-space-sm">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-on-primary shadow-sm">
+                        <span class="material-symbols-outlined text-[24px]">school</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span
+                            class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-tight">ProjectTrack</span>
+                        <span
+                            class="font-label-sm text-label-sm text-on-surface-variant font-normal leading-none mt-space-xs">Collaboration
+                            &amp; Progress Tracking</span>
+                    </div>
+                </a>
+
+                <nav class="hidden md:flex items-center gap-space-xs p-1 bg-surface-container-low rounded-xl">
+                    <a href="dashboard.html"
+                        class="px-space-md py-space-sm rounded-lg font-label-md text-label-md transition-colors text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high">Dashboard</a>
+                    <a href="projects.html"
+                        class="px-space-md py-space-sm rounded-lg font-label-md text-label-md transition-colors bg-primary-container text-on-primary font-semibold shadow-sm">Projects</a>
+
+                    <a href="my-tasks.html"
+                        class="px-space-md py-space-sm rounded-lg font-label-md text-label-md transition-colors text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high">My
+                        Tasks</a>
+
+                </nav>
+
+            </div>
+
+            <div class="flex items-center gap-space-md">
+
+                <div class="relative group">
+                    <button type="button"
+                        class="flex items-center gap-space-sm pl-space-xs pr-space-md py-space-xs rounded-full bg-surface-container-low hover:bg-surface-container-high transition-colors text-left focus:outline-none">
+                        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                            <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+                        </div>
+                        <div class="hidden sm:flex flex-col">
+                            <span class="font-label-md text-label-md text-on-surface leading-tight">Rafi</span>
+                            <span
+                                class="font-label-sm text-label-sm text-on-surface-variant leading-none">Student</span>
+                        </div>
+                        <span
+                            class="material-symbols-outlined text-on-surface-variant text-[20px] transition-transform group-hover:rotate-180">expand_more</span>
+                    </button>
+
+                    <div
+                        class="absolute right-0 top-full w-56 pt-space-xs opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto transition-all z-50">
+                        <div
+                            class="bg-surface-container-lowest rounded-xl shadow-[0_10px_15px_-3px_rgba(15,23,42,0.06),0_4px_6px_-4px_rgba(15,23,42,0.04)] p-space-xs">
+                            <div class="px-space-md py-space-sm border-b border-surface-container-high">
+                                <div class="font-label-md text-label-md text-on-surface font-semibold truncate">Rafi
+                                </div>
+                                <div class="font-label-sm text-label-sm text-on-surface-variant truncate">rafi@x.com
+                                </div>
+                            </div>
+                            <form action="login.html" method="get">
+                                <button type="submit"
+                                    class="w-full flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-error hover:text-on-error hover:bg-error transition-colors">
+                                    <span class="material-symbols-outlined text-[18px]">logout</span>Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full pt-20 bg-surface min-h-[calc(100vh-5rem)]">
+
+        <div class="w-full max-w-[1440px] mx-auto px-gutter-mobile sm:px-gutter py-space-xl">
+
+            <div class="flex flex-col gap-space-xs mb-space-xl max-w-3xl mx-auto">
+                <nav
+                    class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm flex-wrap">
+                    <a class="hover:text-primary transition-colors flex items-center gap-1" href="projects.html">
+                        <span class="material-symbols-outlined text-[16px]">folder_copy</span>Projects
+                    </a>
+                    <span class="material-symbols-outlined text-[14px] text-outline-variant">chevron_right</span>
+                    <a class="hover:text-primary transition-colors" href="project-detail.html">Autonomous Campus Drone
+                        Navigation</a>
+                    <span class="material-symbols-outlined text-[14px] text-outline-variant">chevron_right</span>
+                    <span class="text-on-surface font-semibold">New Task</span>
+                </nav>
+                <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mt-space-xs">Create Task
+                </h1>
+                <p class="font-body-md text-body-md text-on-surface-variant">Write the task, choose who will do it, and
+                    set a due date.</p>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <form action="#" method="get"
+                    class="bg-surface-container-lowest rounded-2xl shadow-sm p-space-lg sm:p-space-xl flex flex-col gap-space-lg">
+
+                    <div class="flex flex-col gap-1.5">
+                        <label class="font-label-md text-label-md text-on-surface font-semibold" for="taskTitle">Task
+                            Title <span class="text-error">*</span></label>
+                        <input id="taskTitle" name="title" type="text" required maxlength="200" value=""
+                            placeholder="e.g., Design the database tables"
+                            class="w-full bg-surface-container-low/40 text-on-surface placeholder:text-outline font-body-md text-body-md rounded-xl px-space-md py-2.5 outline-none shadow-sm focus:ring-2 focus:ring-primary-container/20 focus:bg-surface-container-lowest transition-all" />
+
+                    </div>
+
+                    <div class="flex flex-col gap-1.5">
+                        <label class="font-label-md text-label-md text-on-surface font-semibold"
+                            for="taskDescription">Description</label>
+                        <textarea id="taskDescription" name="description" rows="4"
+                            placeholder="What exactly needs to be done?"
+                            class="w-full bg-surface-container-low/40 text-on-surface placeholder:text-outline font-body-md text-body-md rounded-xl p-space-md outline-none shadow-sm focus:ring-2 focus:ring-primary-container/20 focus:bg-surface-container-lowest transition-all resize-y"></textarea>
+
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-lg">
+                        <div class="flex flex-col gap-1.5">
+                            <label class="font-label-md text-label-md text-on-surface font-semibold"
+                                for="taskAssignee">Assigned Member</label>
+
+                            <select id="taskAssignee" name="assigned_to"
+                                class="w-full bg-surface-container-low/40 text-on-surface font-body-md text-body-md rounded-xl px-space-md py-2.5 outline-none shadow-sm focus:ring-2 focus:ring-primary-container/20">
+                                <option value="">Unassigned</option>
+
+                                <option value="1">Rafi (rafi@x.com)</option>
+
+                                <option value="2">Nila (nila@x.com)</option>
+
+                                <option value="3">Tarek (tarek@x.com)</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="flex flex-col gap-1.5">
+                            <label class="font-label-md text-label-md text-on-surface font-semibold"
+                                for="taskStatus">Status</label>
+
+                            <select id="taskStatus" name="status"
+                                class="w-full bg-surface-container-low/40 text-on-surface font-body-md text-body-md rounded-xl px-space-md py-2.5 outline-none shadow-sm focus:ring-2 focus:ring-primary-container/20">
+                                <option value="todo" selected>To Do</option>
+                                <option value="doing">In Progress</option>
+                                <option value="done">Done</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-lg">
+                        <div class="flex flex-col gap-1.5">
+                            <label class="font-label-md text-label-md text-on-surface font-semibold"
+                                for="taskPriority">Priority</label>
+
+                            <select id="taskPriority" name="priority"
+                                class="w-full bg-surface-container-low/40 text-on-surface font-body-md text-body-md rounded-xl px-space-md py-2.5 outline-none shadow-sm focus:ring-2 focus:ring-primary-container/20">
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                            </select>
+
+                        </div>
+
+                        <div class="flex flex-col gap-1.5">
+                            <label class="font-label-md text-label-md text-on-surface font-semibold" for="dueDate">Due
+                                Date</label>
+                            <input id="dueDate" name="due_date" type="date" value=""
+                                class="w-full bg-surface-container-low/40 text-on-surface font-body-md text-body-md rounded-xl px-space-md py-2.5 outline-none shadow-sm focus:ring-2 focus:ring-primary-container/20" />
+
+                        </div>
+                    </div>
+
+                    <div class="pt-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md">
+                        <a href="project-detail.html"
+                            class="order-2 sm:order-1 w-full sm:w-auto px-space-lg py-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors text-center">Cancel</a>
+                        <button type="submit"
+                            class="order-1 sm:order-2 w-full sm:w-auto px-space-xl py-2.5 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md font-semibold transition-all shadow-[0_4px_12px_rgba(79,70,229,0.25)] flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">check</span>Save Task
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="w-full bg-surface-container-low shadow-[0_-1px_4px_rgba(0,0,0,0.02)]">
+        <div class="w-full px-gutter py-space-xl flex items-center justify-center md:justify-start gap-space-sm">
+            <div class="w-6 h-6 rounded-lg bg-primary-container flex items-center justify-center text-on-primary">
+                <span class="material-symbols-outlined text-[14px]">school</span>
+            </div>
+            <span class="font-body-sm text-body-sm text-on-surface-variant">© 2026 ProjectTrack. Student Project
+                Collaboration &amp; Progress Tracking System.</span>
+        </div>
+    </footer>
+
+</body>
+
+</html>
