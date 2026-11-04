@@ -6,16 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | ProjectTrack</title>
 
-    <!-- Tailwind CDN, tarpor amader config file (ei order ta thik rakhte hobe) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="js/tailwind-config.js"></script>
-
-    <!-- Font ar icon -->
+    <!-- Font ar icon (Google theke, internet lagbe) -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
-    <!-- Amader nijer css -->
+    <!-- Amader shob design ei ekta css file e -->
     <link href="css/style.css" rel="stylesheet">
 </head>
 
@@ -79,22 +75,23 @@
                     </p>
                 </div>
 
-                <!-- Error message (ekhon lukano, pore JS diye dekhabo) -->
-                <div id="errorBox"
-                    class="hidden mb-space-md items-start gap-2 rounded-xl bg-error-container text-on-error-container px-4 py-3 font-body-sm text-body-sm">
-                    <span class="material-symbols-outlined text-[18px]">error</span>
-                    <span>Email ba password thik nai. Abar try koro.</span>
-                </div>
+                <!-- Error message: Python e vul password hole ei box ta dekhabo. Ekhon lukano. -->
+                <!--
+        <div class="mb-space-md flex items-start gap-2 rounded-xl bg-error-container text-on-error-container px-4 py-3 font-body-sm text-body-sm">
+          <span class="material-symbols-outlined text-[18px]">error</span>
+          <span>Email ba password thik nai. Abar try koro.</span>
+        </div>
+        -->
 
-                <!-- Login form -->
-                <form id="loginForm" class="space-y-4">
+                <!-- Login form (ekhon action="dashboard.html"; pore Python er link boshabo) -->
+                <form class="space-y-4" action="dashboard.html" method="get">
 
                     <div class="flex flex-col text-left">
                         <label class="font-label-md text-label-md text-on-surface mb-1.5" for="email">Email</label>
                         <div class="relative flex items-center">
                             <span
                                 class="material-symbols-outlined absolute left-3.5 text-[20px] text-outline pointer-events-none">mail</span>
-                            <input id="email" type="email" required autofocus autocomplete="email"
+                            <input id="email" name="email" type="email" required autofocus autocomplete="email"
                                 placeholder="student@university.edu"
                                 class="w-full bg-surface-container-low/30 text-on-surface placeholder:text-outline-variant font-body-sm text-body-sm pl-11 pr-4 py-2.5 rounded-xl transition-all duration-150 outline-none shadow-sm focus:bg-surface-container-lowest focus:shadow-[0_0_0_4px_rgba(79,70,229,0.12)]" />
                         </div>
@@ -106,13 +103,9 @@
                         <div class="relative flex items-center">
                             <span
                                 class="material-symbols-outlined absolute left-3.5 text-[20px] text-outline pointer-events-none">lock</span>
-                            <input id="password" type="password" required autocomplete="current-password"
-                                placeholder="••••••••"
-                                class="w-full bg-surface-container-low/30 text-on-surface placeholder:text-outline-variant font-body-sm text-body-sm pl-11 pr-11 py-2.5 rounded-xl transition-all duration-150 outline-none shadow-sm focus:bg-surface-container-lowest focus:shadow-[0_0_0_4px_rgba(79,70,229,0.12)]" />
-                            <button type="button" id="togglePassword" aria-label="Toggle password visibility"
-                                class="absolute right-2.5 p-1 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container transition-colors flex items-center justify-center focus:outline-none">
-                                <span id="eyeIcon" class="material-symbols-outlined text-[20px]">visibility</span>
-                            </button>
+                            <input id="password" name="password" type="password" required
+                                autocomplete="current-password" placeholder="••••••••"
+                                class="w-full bg-surface-container-low/30 text-on-surface placeholder:text-outline-variant font-body-sm text-body-sm pl-11 pr-4 py-2.5 rounded-xl transition-all duration-150 outline-none shadow-sm focus:bg-surface-container-lowest focus:shadow-[0_0_0_4px_rgba(79,70,229,0.12)]" />
                         </div>
                     </div>
 
@@ -145,7 +138,6 @@
         </div>
     </footer>
 
-    <script src="js/login.js"></script>
 </body>
 
 </html>
