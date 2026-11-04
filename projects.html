@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="h-full" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | ProjectTrack</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+
+    <style></style> <!-- Amader shob design ei ekta css file e -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body class="bg-surface font-body-md text-body-md text-on-surface">
+
+    <header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+        <div class="h-20 w-full px-gutter flex items-center justify-between">
+
+            <div class="flex items-center gap-space-xl">
+                <a href="dashboard.html" class="flex items-center gap-space-sm">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-on-primary shadow-sm">
+                        <span class="material-symbols-outlined text-[24px]">school</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span
+                            class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-tight">ProjectTrack</span>
+                        <span
+                            class="font-label-sm text-label-sm text-on-surface-variant font-normal leading-none mt-space-xs">Collaboration
+                            &amp; Progress Tracking</span>
+                    </div>
+                </a>
+
+                <nav class="hidden md:flex items-center gap-space-xs p-1 bg-surface-container-low rounded-xl">
+                    <a href="dashboard.html"
+                        class="px-space-md py-space-sm rounded-lg font-label-md text-label-md transition-colors text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high">Dashboard</a>
+                    <a href="projects.html"
+                        class="px-space-md py-space-sm rounded-lg font-label-md text-label-md transition-colors bg-primary-container text-on-primary font-semibold shadow-sm">Projects</a>
+
+                    <a href="my-tasks.html"
+                        class="px-space-md py-space-sm rounded-lg font-label-md text-label-md transition-colors text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high">My
+                        Tasks</a>
+
+                </nav>
+
+            </div>
+
+            <div class="flex items-center gap-space-md">
+
+                <div class="relative group">
+                    <button type="button"
+                        class="flex items-center gap-space-sm pl-space-xs pr-space-md py-space-xs rounded-full bg-surface-container-low hover:bg-surface-container-high transition-colors text-left focus:outline-none">
+                        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                            <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+                        </div>
+                        <div class="hidden sm:flex flex-col">
+                            <span class="font-label-md text-label-md text-on-surface leading-tight">Rafi</span>
+                            <span
+                                class="font-label-sm text-label-sm text-on-surface-variant leading-none">Student</span>
+                        </div>
+                        <span
+                            class="material-symbols-outlined text-on-surface-variant text-[20px] transition-transform group-hover:rotate-180">expand_more</span>
+                    </button>
+
+                    <div
+                        class="absolute right-0 top-full w-56 pt-space-xs opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto transition-all z-50">
+                        <div
+                            class="bg-surface-container-lowest rounded-xl shadow-[0_10px_15px_-3px_rgba(15,23,42,0.06),0_4px_6px_-4px_rgba(15,23,42,0.04)] p-space-xs">
+                            <div class="px-space-md py-space-sm border-b border-surface-container-high">
+                                <div class="font-label-md text-label-md text-on-surface font-semibold truncate">Rafi
+                                </div>
+                                <div class="font-label-sm text-label-sm text-on-surface-variant truncate">rafi@x.com
+                                </div>
+                            </div>
+                            <form action="login.html" method="get">
+                                <button type="submit"
+                                    class="w-full flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-error hover:text-on-error hover:bg-error transition-colors">
+                                    <span class="material-symbols-outlined text-[18px]">logout</span>Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full pt-20 bg-surface min-h-[calc(100vh-5rem)]">
+
+        <div class="max-w-[1440px] w-full mx-auto px-gutter py-space-xl flex flex-col gap-space-xl">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+                <div class="flex flex-col gap-space-xs">
+                    <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">My Projects</h1>
+                    <p class="font-body-md text-body-md text-on-surface-variant">
+                        2 projects
+                        you own or are a member of
+                    </p>
+                </div>
+
+                <a href="add-project.html"
+                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md shadow-sm hover:shadow-md transition-all self-start">
+                    <span class="material-symbols-outlined text-[20px]">add</span><span>New Project</span>
+                </a>
+
+            </div>
+
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-space-lg">
+
+                <article
+                    class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-all duration-200 flex flex-col gap-space-md group">
+                    <div class="flex flex-col gap-1.5 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="px-3 py-0.5 rounded-full font-label-sm text-label-sm
+        bg-error-container text-on-error-container
+        ">Overdue</span>
+                            <span class="inline-flex items-center gap-1 font-label-sm text-label-sm
+        text-error font-semibold">
+                                <span class="material-symbols-outlined text-[14px]">event_upcoming</span>
+                                Nov 01, 2026 &middot; Overdue by 3 days
+                            </span>
+                        </div>
+                        <a href="project-detail.html"
+                            class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Library
+                            Management App</a>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Web app for borrowing
+                            books.</p>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <div
+                            class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[16px] text-primary">flag</span>
+                                <span class="text-on-surface font-semibold">1 of 2 tasks done</span>
+                            </div>
+                            <span class="font-semibold text-primary">50% Completed</span>
+                        </div>
+                        <div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+                            <div class="h-full rounded-full transition-all duration-500 bg-error" style="width: 50%">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-space-xs">
+                        <div class="flex items-center gap-3">
+                            <span class="font-label-sm text-label-sm text-on-surface-variant">Team:</span>
+                            <div class="flex items-center -space-x-2">
+
+                                <span
+                                    class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-secondary text-on-secondary ring-2 ring-surface-container-lowest font-label-sm text-label-sm"
+                                    title="Rafi">RA</span>
+
+                                <span
+                                    class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-tertiary text-on-tertiary ring-2 ring-surface-container-lowest font-label-sm text-label-sm"
+                                    title="Nila">NI</span>
+
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span
+                                class="inline-flex items-center gap-1 font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2.5 py-1 rounded-lg">
+                                <span class="material-symbols-outlined text-[14px]">comment</span> 0
+                            </span>
+                            <a href="project-detail.html"
+                                class="p-1.5 rounded-lg text-primary hover:bg-surface-container transition-colors font-label-sm text-label-sm flex items-center">
+                                Workspace <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <article
+                    class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-all duration-200 flex flex-col gap-space-md group">
+                    <div class="flex flex-col gap-1.5 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="px-3 py-0.5 rounded-full font-label-sm text-label-sm
+        bg-primary-fixed text-primary">In Progress</span>
+                            <span class="inline-flex items-center gap-1 font-label-sm text-label-sm
+        text-on-surface-variant">
+                                <span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                                Nov 25, 2026 &middot; Due in 21 days
+                            </span>
+                        </div>
+                        <a href="project-detail.html"
+                            class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">Autonomous
+                            Campus Drone Navigation</a>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Build a drone that
+                            maps the campus and navigates between buildings using computer vision.</p>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <div
+                            class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[16px] text-primary">flag</span>
+                                <span class="text-on-surface font-semibold">1 of 5 tasks done</span>
+                            </div>
+                            <span class="font-semibold text-primary">20% Completed</span>
+                        </div>
+                        <div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+                            <div class="h-full rounded-full transition-all duration-500 bg-primary" style="width: 20%">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-space-xs">
+                        <div class="flex items-center gap-3">
+                            <span class="font-label-sm text-label-sm text-on-surface-variant">Team:</span>
+                            <div class="flex items-center -space-x-2">
+
+                                <span
+                                    class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-secondary text-on-secondary ring-2 ring-surface-container-lowest font-label-sm text-label-sm"
+                                    title="Rafi">RA</span>
+
+                                <span
+                                    class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-tertiary text-on-tertiary ring-2 ring-surface-container-lowest font-label-sm text-label-sm"
+                                    title="Nila">NI</span>
+
+                                <span
+                                    class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary-container text-on-primary ring-2 ring-surface-container-lowest font-label-sm text-label-sm"
+                                    title="Tarek">TA</span>
+
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span
+                                class="inline-flex items-center gap-1 font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2.5 py-1 rounded-lg">
+                                <span class="material-symbols-outlined text-[14px]">comment</span> 2
+                            </span>
+                            <a href="project-detail.html"
+                                class="p-1.5 rounded-lg text-primary hover:bg-surface-container transition-colors font-label-sm text-label-sm flex items-center">
+                                Workspace <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="w-full bg-surface-container-low shadow-[0_-1px_4px_rgba(0,0,0,0.02)]">
+        <div class="w-full px-gutter py-space-xl flex items-center justify-center md:justify-start gap-space-sm">
+            <div class="w-6 h-6 rounded-lg bg-primary-container flex items-center justify-center text-on-primary">
+                <span class="material-symbols-outlined text-[14px]">school</span>
+            </div>
+            <span class="font-body-sm text-body-sm text-on-surface-variant">© 2026 ProjectTrack. Student Project
+                Collaboration &amp; Progress Tracking System.</span>
+        </div>
+    </footer>
+
+</body>
+
+</html>
