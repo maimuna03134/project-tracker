@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html class="h-full" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous Campus Drone Navigation | ProjectTrack</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+
+    <style></style> <!-- Amader shob design ei ekta css file e -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body class="bg-surface font-body-md text-body-md text-on-surface">
+
+    <header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+        <div class="h-20 w-full px-gutter flex items-center justify-between">
+
+            <div class="flex items-center gap-space-xl">
+                <a href="teacher-dashboard.html" class="flex items-center gap-space-sm">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-on-primary shadow-sm">
+                        <span class="material-symbols-outlined text-[24px]">school</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span
+                            class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-tight">ProjectTrack</span>
+                        <span
+                            class="font-label-sm text-label-sm text-on-surface-variant font-normal leading-none mt-space-xs">Collaboration
+                            &amp; Progress Tracking</span>
+                    </div>
+                </a>
+
+                <nav class="hidden md:flex items-center gap-space-xs p-1 bg-surface-container-low rounded-xl">
+                    <a href="teacher-dashboard.html"
+                        class="px-space-md py-space-sm rounded-lg font-label-md text-label-md transition-colors text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high">Dashboard</a>
+                    <a href="projects.html"
+                        class="px-space-md py-space-sm rounded-lg font-label-md text-label-md transition-colors bg-primary-container text-on-primary font-semibold shadow-sm">Projects</a>
+
+                </nav>
+
+            </div>
+
+            <div class="flex items-center gap-space-md">
+
+                <div class="relative group">
+                    <button type="button"
+                        class="flex items-center gap-space-sm pl-space-xs pr-space-md py-space-xs rounded-full bg-surface-container-low hover:bg-surface-container-high transition-colors text-left focus:outline-none">
+                        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                            <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+                        </div>
+                        <div class="hidden sm:flex flex-col">
+                            <span class="font-label-md text-label-md text-on-surface leading-tight">Dr. Karim U.</span>
+                            <span
+                                class="font-label-sm text-label-sm text-on-surface-variant leading-none">Teacher</span>
+                        </div>
+                        <span
+                            class="material-symbols-outlined text-on-surface-variant text-[20px] transition-transform group-hover:rotate-180">expand_more</span>
+                    </button>
+
+                    <div
+                        class="absolute right-0 top-full w-56 pt-space-xs opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto transition-all z-50">
+                        <div
+                            class="bg-surface-container-lowest rounded-xl shadow-[0_10px_15px_-3px_rgba(15,23,42,0.06),0_4px_6px_-4px_rgba(15,23,42,0.04)] p-space-xs">
+                            <div class="px-space-md py-space-sm border-b border-surface-container-high">
+                                <div class="font-label-md text-label-md text-on-surface font-semibold truncate">Dr.
+                                    Karim Uddin</div>
+                                <div class="font-label-sm text-label-sm text-on-surface-variant truncate">sir@x.com
+                                </div>
+                            </div>
+                            <form action="login.html" method="get">
+                                <button type="submit"
+                                    class="w-full flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-error hover:text-on-error hover:bg-error transition-colors">
+                                    <span class="material-symbols-outlined text-[18px]">logout</span>Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full pt-20 bg-surface min-h-[calc(100vh-5rem)]">
+
+        <div
+            class="w-full max-w-[1440px] mx-auto px-gutter-mobile md:px-gutter py-space-lg md:py-space-xl flex flex-col gap-space-xl">
+
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+                <div class="flex flex-wrap items-center gap-space-xs md:gap-space-sm min-w-0">
+                    <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1"
+                        href="projects.html">
+                        <span class="material-symbols-outlined text-[18px]">folder_open</span>Projects
+                    </a>
+                    <span class="text-outline-variant font-body-sm text-body-sm select-none">/</span>
+                    <span
+                        class="font-label-md text-label-md text-on-surface font-semibold truncate max-w-[260px] sm:max-w-md">Autonomous
+                        Campus Drone Navigation</span>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full font-label-sm text-label-sm ml-1
+        bg-primary-fixed text-primary">
+                        <span class="w-2 h-2 rounded-full animate-pulse bg-primary"></span>
+                        In Progress
+                    </span>
+                </div>
+
+                <div class="flex items-center gap-space-sm self-start md:self-auto shrink-0">
+
+                </div>
+            </div>
+
+            <section
+                class="w-full bg-surface-container-lowest rounded-2xl p-space-lg md:p-space-xl shadow-sm flex flex-col gap-space-lg relative">
+                <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
+                    <div class="absolute -right-24 -top-24 w-80 h-80 rounded-full bg-primary/5 blur-3xl"></div>
+                </div>
+
+                <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-space-lg relative z-10">
+                    <div class="flex flex-col gap-space-xs max-w-3xl">
+                        <span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider">Created Nov 04,
+                            2026</span>
+                        <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mt-1">Autonomous
+                            Campus Drone Navigation</h1>
+                        <p
+                            class="font-body-md text-body-md text-on-surface-variant leading-relaxed mt-1 whitespace-pre-line">
+                            Build a drone that maps the campus and navigates between buildings using computer vision.
+                        </p>
+                    </div>
+
+                    <div
+                        class="bg-surface-container-low p-space-md rounded-xl flex items-center gap-space-md shrink-0 lg:max-w-xs shadow-sm">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-secondary text-on-secondary flex items-center justify-center font-title-md text-title-md font-bold shrink-0">
+                            RA</div>
+                        <div class="flex flex-col min-w-0">
+                            <span class="font-label-sm text-label-sm text-on-surface-variant">Project Lead</span>
+                            <span class="font-title-md text-title-md text-on-surface truncate">Rafi</span>
+                            <span class="font-label-sm text-label-sm text-primary truncate">rafi@x.com</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-space-md pt-space-md items-stretch relative z-10">
+
+                    <div
+                        class="md:col-span-6 bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-xs justify-center">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="font-label-md text-label-md text-on-surface font-semibold">Task
+                                    Progress</span>
+                                <span
+                                    class="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary font-semibold">1
+                                    / 5 Tasks</span>
+                            </div>
+                            <span class="font-title-md text-title-md text-primary font-bold">20%</span>
+                        </div>
+                        <div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden flex">
+                            <div class="h-full bg-gradient-to-r from-primary to-primary-container rounded-full transition-all duration-700"
+                                style="width: 20%;"></div>
+                        </div>
+                        <div
+                            class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm pt-0.5">
+                            <span>4 tasks remaining</span>
+                            <span>3 members</span>
+                        </div>
+                    </div>
+
+                    <div
+                        class="md:col-span-3 bg-surface-container-low p-space-md rounded-xl flex items-center gap-space-sm">
+                        <div
+                            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-surface-container-high text-primary">
+                            <span class="material-symbols-outlined text-[22px]">calendar_clock</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-label-sm text-label-sm text-on-surface-variant">Deadline</span>
+                            <span class="font-label-md text-label-md text-on-surface font-semibold">Nov 25, 2026</span>
+                            <span class="font-label-sm text-label-sm font-medium text-on-surface-variant">Due in 21
+                                days</span>
+                        </div>
+                    </div>
+
+                    <div
+                        class="md:col-span-3 bg-surface-container-low p-space-md rounded-xl flex flex-col gap-1.5 justify-center">
+                        <div class="flex items-center justify-between">
+                            <span class="font-label-sm text-label-sm text-on-surface-variant">Team (3)</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-wrap pt-0.5">
+                            <div class="flex -space-x-2">
+
+                                <div class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-secondary text-on-secondary ring-2 ring-surface-container-lowest font-label-sm text-label-sm font-semibold"
+                                    title="Rafi">RA</div>
+
+                                <div class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-tertiary text-on-tertiary ring-2 ring-surface-container-lowest font-label-sm text-label-sm font-semibold"
+                                    title="Nila">NI</div>
+
+                                <div class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary-container text-on-primary ring-2 ring-surface-container-lowest font-label-sm text-label-sm font-semibold"
+                                    title="Tarek">TA</div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <article class="bg-surface-container-lowest rounded-2xl shadow-md p-space-xl relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1.5 bg-primary"></div>
+                <div class="flex items-center gap-space-md pb-space-lg">
+                    <div class="relative">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-primary text-on-primary flex items-center justify-center font-title-md text-title-md shadow-md">
+                            DR</div>
+                        <span
+                            class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center">
+                            <span class="material-symbols-outlined text-[12px]">verified</span>
+                        </span>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="flex items-center gap-space-xs flex-wrap">
+                            <h2 class="font-title-md text-title-md text-on-surface font-semibold">Faculty Evaluation
+                                &amp; Feedback</h2>
+                            <span
+                                class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold">Teacher
+                                Mode</span>
+                        </div>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant">Evaluator: Dr. Karim Uddin</p>
+                    </div>
+                </div>
+
+                <form action="#" method="get" class="grid grid-cols-1 md:grid-cols-12 gap-space-lg">
+                    <div
+                        class="md:col-span-4 flex flex-col justify-center items-center p-space-md bg-surface-container-low rounded-xl text-center">
+                        <span
+                            class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-space-xs">Marks
+                            (optional)</span>
+                        <div class="flex items-baseline justify-center gap-1 my-space-xs">
+                            <input id="scoreInput" name="marks" type="number" min="0" max="100" placeholder="--"
+                                class="font-display-hero text-display-hero text-primary w-28 text-center bg-transparent font-bold focus:outline-none focus:bg-surface-container rounded-lg transition-colors leading-none" />
+                            <span class="font-headline-md text-headline-md text-on-surface-variant font-semibold">/
+                                100</span>
+                        </div>
+
+                    </div>
+
+                    <div class="md:col-span-8 flex flex-col gap-space-sm">
+                        <label for="critiqueDraft"
+                            class="font-title-md text-title-md text-on-surface font-semibold">Written Feedback <span
+                                class="text-error">*</span></label>
+                        <textarea id="critiqueDraft" name="text" rows="6" required
+                            placeholder="Write your feedback: what is good, what needs to improve, and what the team should do next..."
+                            class="w-full bg-surface-container-low p-space-md font-body-md text-body-md text-on-surface placeholder:text-outline rounded-xl focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container/20 transition-all leading-relaxed"></textarea>
+                        <div class="flex items-center justify-between gap-space-md">
+                            <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[16px] text-tertiary">groups</span>Visible
+                                to all team members
+                            </span>
+                            <button type="submit"
+                                class="px-space-lg py-space-xs rounded-xl bg-primary text-on-primary hover:bg-primary-container font-label-md text-label-md transition-all flex items-center gap-space-xs shadow-md">
+                                <span class="material-symbols-outlined text-[18px]">verified</span><span>Submit
+                                    Feedback</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </article>
+
+            <section class="flex flex-col gap-space-md">
+                <div class="flex items-center gap-space-xs">
+                    <span class="material-symbols-outlined text-primary text-[22px]">history_edu</span>
+                    <h3 class="font-headline-sm text-headline-sm text-on-surface">Teacher Feedback</h3>
+                    <span
+                        class="px-space-xs py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm font-semibold">1
+                        Review</span>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
+
+                    <article
+                        class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-md transition-all flex items-start justify-between gap-space-md">
+                        <div class="flex items-start gap-space-md flex-1 min-w-0">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-surface-container text-primary flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-[20px]">assignment_turned_in</span>
+                            </div>
+                            <div class="flex flex-col flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center gap-space-sm mb-1">
+                                    <span class="font-title-md text-title-md text-on-surface font-semibold">Dr. Karim
+                                        Uddin</span>
+                                    <span class="text-on-surface-variant font-label-sm text-label-sm">&bull; Nov 04,
+                                        2026</span>
+                                </div>
+                                <p
+                                    class="font-body-md text-body-md text-on-surface-variant leading-relaxed whitespace-pre-line">
+                                    Good start. Focus on obstacle avoidance next.</p>
+                            </div>
+                        </div>
+
+                        <div class="shrink-0 text-right">
+                            <span class="font-headline-sm text-headline-sm text-on-surface font-bold">85<span
+                                    class="font-body-sm text-body-sm text-on-surface-variant font-normal">/100</span></span>
+                        </div>
+
+                    </article>
+
+                </div>
+            </section>
+
+            <section class="flex flex-col gap-space-md">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+                    <div class="flex items-center gap-space-sm">
+                        <span class="material-symbols-outlined text-primary text-[24px]">view_kanban</span>
+                        <h2 class="font-headline-sm text-headline-sm text-on-surface">Tasks</h2>
+                        <span
+                            class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-semibold">5
+                            total items</span>
+                    </div>
+
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg items-start">
+
+                    <div class="bg-surface-container-low p-space-md rounded-2xl flex flex-col gap-space-md">
+                        <div class="flex items-center justify-between pb-space-xs">
+                            <div class="flex items-center gap-space-xs">
+                                <span class="w-2.5 h-2.5 rounded-full bg-outline"></span>
+                                <span class="font-title-md text-title-md text-on-surface font-semibold">To Do</span>
+                                <span
+                                    class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-semibold">2</span>
+                            </div>
+
+                        </div>
+                        <div class="flex flex-col gap-space-sm">
+
+                            <div class="task-card bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col gap-space-sm group  "
+                                data-search="prepare demo video short note about this task.">
+
+                                <div class="flex items-start justify-between gap-2">
+
+                                    <span
+                                        class="px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">Low</span>
+
+                                </div>
+
+                                <h3
+                                    class="font-label-md text-label-md font-semibold group-hover:text-primary transition-colors text-on-surface">
+                                    Prepare demo video</h3>
+
+                                <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Short note
+                                    about this task.</p>
+
+                                <div class="pt-2 flex items-center justify-between">
+                                    <div
+                                        class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface-variant">
+                                        <span class="material-symbols-outlined text-[16px]">event</span>
+                                        <span>Nov 13</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+
+                                        <div class="w-6 h-6 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center"
+                                            title="Unassigned">
+                                            <span class="material-symbols-outlined text-[14px]">person_off</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="task-card bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col gap-space-sm group  "
+                                data-search="write test plan short note about this task.">
+
+                                <div class="flex items-start justify-between gap-2">
+
+                                    <span
+                                        class="px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold">Medium</span>
+
+                                </div>
+
+                                <h3
+                                    class="font-label-md text-label-md font-semibold group-hover:text-primary transition-colors text-on-surface">
+                                    Write test plan</h3>
+
+                                <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Short note
+                                    about this task.</p>
+
+                                <div class="pt-2 flex items-center justify-between">
+                                    <div
+                                        class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface-variant">
+                                        <span class="material-symbols-outlined text-[16px]">event</span>
+                                        <span>Nov 12</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+
+                                        <div class="w-6 h-6 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm flex items-center justify-center font-semibold text-[10px]"
+                                            title="Rafi">RA</div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="bg-surface-container-low p-space-md rounded-2xl flex flex-col gap-space-md">
+                        <div class="flex items-center justify-between pb-space-xs">
+                            <div class="flex items-center gap-space-xs">
+                                <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+                                <span class="font-title-md text-title-md text-on-surface font-semibold">In
+                                    Progress</span>
+                                <span
+                                    class="px-2 py-0.5 rounded-full bg-primary-fixed text-primary font-label-sm text-label-sm font-semibold">2</span>
+                            </div>
+
+                        </div>
+                        <div class="flex flex-col gap-space-sm">
+
+                            <div class="task-card bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col gap-space-sm group  "
+                                data-search="camera calibration short note about this task.">
+
+                                <div class="flex items-start justify-between gap-2">
+
+                                    <span
+                                        class="px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold">Medium</span>
+
+                                </div>
+
+                                <h3
+                                    class="font-label-md text-label-md font-semibold group-hover:text-primary transition-colors text-on-surface">
+                                    Camera calibration</h3>
+
+                                <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Short note
+                                    about this task.</p>
+
+                                <div class="pt-2 flex items-center justify-between">
+                                    <div
+                                        class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface-variant">
+                                        <span class="material-symbols-outlined text-[16px]">event</span>
+                                        <span>Nov 11</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+
+                                        <div class="w-6 h-6 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm flex items-center justify-center font-semibold text-[10px]"
+                                            title="Tarek">TA</div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="task-card bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col gap-space-sm group ring-1 ring-primary/20 "
+                                data-search="design flight controller short note about this task.">
+
+                                <div class="flex items-start justify-between gap-2">
+
+                                    <span
+                                        class="px-2.5 py-0.5 rounded-full bg-error-container text-error font-label-sm text-label-sm font-semibold flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[14px]">flag</span> High Priority
+                                    </span>
+
+                                </div>
+
+                                <h3
+                                    class="font-label-md text-label-md font-semibold group-hover:text-primary transition-colors text-on-surface">
+                                    Design flight controller</h3>
+
+                                <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Short note
+                                    about this task.</p>
+
+                                <div class="pt-2 flex items-center justify-between">
+                                    <div
+                                        class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface-variant">
+                                        <span class="material-symbols-outlined text-[16px]">event</span>
+                                        <span>Nov 10</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+
+                                        <div class="w-6 h-6 rounded-full bg-tertiary text-on-tertiary font-label-sm text-label-sm flex items-center justify-center font-semibold text-[10px]"
+                                            title="Nila">NI</div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="bg-surface-container-low p-space-md rounded-2xl flex flex-col gap-space-md">
+                        <div class="flex items-center justify-between pb-space-xs">
+                            <div class="flex items-center gap-space-xs">
+                                <span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+                                <span class="font-title-md text-title-md text-on-surface font-semibold">Done</span>
+                                <span
+                                    class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-semibold">1</span>
+                            </div>
+
+                        </div>
+                        <div class="flex flex-col gap-space-sm">
+
+                            <div class="task-card bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col gap-space-sm group  opacity-90 hover:opacity-100"
+                                data-search="literature review short note about this task.">
+
+                                <div class="flex items-start justify-between gap-2">
+
+                                    <span
+                                        class="px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">Low</span>
+
+                                    <span
+                                        class="material-symbols-outlined text-tertiary text-[18px]">check_circle</span>
+
+                                </div>
+
+                                <h3
+                                    class="font-label-md text-label-md font-semibold group-hover:text-primary transition-colors line-through text-on-surface-variant">
+                                    Literature review</h3>
+
+                                <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Short note
+                                    about this task.</p>
+
+                                <div class="pt-2 flex items-center justify-between">
+                                    <div
+                                        class="flex items-center gap-1.5 font-label-sm text-label-sm text-tertiary font-medium">
+                                        <span class="material-symbols-outlined text-[16px]">task_alt</span>
+                                        <span>Nov 09</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+
+                                        <div class="w-6 h-6 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm flex items-center justify-center font-semibold text-[10px]"
+                                            title="Rafi">RA</div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+
+                <div
+                    class="lg:col-span-7 bg-surface-container-lowest p-space-lg md:p-space-xl rounded-2xl shadow-sm flex flex-col gap-space-lg">
+                    <div class="flex items-center gap-space-sm">
+                        <span class="material-symbols-outlined text-primary text-[24px]">forum</span>
+                        <h2 class="font-title-md text-title-md text-on-surface font-semibold">Discussion</h2>
+                        <span
+                            class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">2
+                            messages</span>
+                    </div>
+
+                    <form action="#" method="get"
+                        class="w-full bg-surface-container-low rounded-2xl p-space-sm focus-within:ring-2 focus-within:ring-primary/20 transition-all flex flex-col gap-2">
+                        <textarea name="text" rows="3" required placeholder="Write a comment for your team..."
+                            class="w-full bg-transparent resize-none font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none px-2 pt-1"></textarea>
+                        <div class="flex justify-end px-1">
+                            <button type="submit"
+                                class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container shadow-sm transition-all active:scale-95">
+                                <span>Post Comment</span><span class="material-symbols-outlined text-[18px]">send</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="flex flex-col gap-space-md">
+
+                        <div class="flex gap-space-sm">
+                            <div
+                                class="w-9 h-9 rounded-xl bg-tertiary-container text-on-tertiary flex items-center justify-center font-semibold text-xs shrink-0">
+                                DR</div>
+                            <div class="flex flex-col gap-1 w-full min-w-0">
+                                <div class="flex items-center justify-between gap-2">
+                                    <div class="flex items-center gap-2 min-w-0">
+                                        <span
+                                            class="font-label-md text-label-md text-on-surface font-semibold truncate">Dr.
+                                            Karim Uddin</span>
+
+                                        <span
+                                            class="px-2 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-[11px]">Teacher</span>
+
+                                    </div>
+                                    <span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">0 minutes
+                                        ago</span>
+                                </div>
+                                <div
+                                    class="bg-surface-container-low p-space-md rounded-2xl rounded-tl-sm text-on-surface font-body-sm text-body-sm leading-relaxed whitespace-pre-line break-words">
+                                    Please share the test plan by Friday.</div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-space-sm">
+                            <div
+                                class="w-9 h-9 rounded-xl bg-tertiary text-on-tertiary flex items-center justify-center font-semibold text-xs shrink-0">
+                                NI</div>
+                            <div class="flex flex-col gap-1 w-full min-w-0">
+                                <div class="flex items-center justify-between gap-2">
+                                    <div class="flex items-center gap-2 min-w-0">
+                                        <span
+                                            class="font-label-md text-label-md text-on-surface font-semibold truncate">Nila</span>
+
+                                        <span
+                                            class="px-2 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px]">Member</span>
+
+                                    </div>
+                                    <span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">0 minutes
+                                        ago</span>
+                                </div>
+                                <div
+                                    class="bg-surface-container-low p-space-md rounded-2xl rounded-tl-sm text-on-surface font-body-sm text-body-sm leading-relaxed whitespace-pre-line break-words">
+                                    Flight controller prototype is ready for review.</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div
+                    class="lg:col-span-5 bg-surface-container-lowest p-space-lg md:p-space-xl rounded-2xl shadow-sm flex flex-col gap-space-lg">
+                    <div class="flex items-center gap-space-sm">
+                        <span class="material-symbols-outlined text-primary text-[24px]">folder_zip</span>
+                        <h2 class="font-title-md text-title-md text-on-surface font-semibold">Files</h2>
+                        <span
+                            class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">1
+                            file</span>
+                    </div>
+
+                    <div class="flex flex-col gap-space-sm">
+
+                        <div
+                            class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors flex items-center justify-between group">
+                            <div class="flex items-center gap-space-sm min-w-0">
+                                <div
+                                    class="w-10 h-10 rounded-xl bg-error-container text-error flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-[22px]">picture_as_pdf</span>
+                                </div>
+                                <div class="flex flex-col min-w-0">
+                                    <span
+                                        class="font-label-md text-label-md text-on-surface font-semibold truncate group-hover:text-primary transition-colors">proposal.pdf</span>
+                                    <span class="font-label-sm text-label-sm text-on-surface-variant truncate">19.5 KB
+                                        &bull; Rafi &bull; 0 minutes ago</span>
+                                </div>
+                            </div>
+                            <a href="#" download aria-label="Download file"
+                                class="w-9 h-9 rounded-xl hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-colors shrink-0">
+                                <span class="material-symbols-outlined text-[20px]">download</span>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <footer class="w-full bg-surface-container-low shadow-[0_-1px_4px_rgba(0,0,0,0.02)]">
+        <div class="w-full px-gutter py-space-xl flex items-center justify-center md:justify-start gap-space-sm">
+            <div class="w-6 h-6 rounded-lg bg-primary-container flex items-center justify-center text-on-primary">
+                <span class="material-symbols-outlined text-[14px]">school</span>
+            </div>
+            <span class="font-body-sm text-body-sm text-on-surface-variant">© 2026 ProjectTrack. Student Project
+                Collaboration &amp; Progress Tracking System.</span>
+        </div>
+    </footer>
+
+
+
+</body>
+
+</html>

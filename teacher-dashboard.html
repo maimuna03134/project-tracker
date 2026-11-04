@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html class="h-full" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard | ProjectTrack</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+
+    <style></style> <!-- Amader shob design ei ekta css file e -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body class="bg-surface font-body-md text-body-md text-on-surface">
+
+    <header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+        <div class="h-20 w-full px-gutter flex items-center justify-between">
+
+            <div class="flex items-center gap-space-xl">
+                <a href="teacher-dashboard.html" class="flex items-center gap-space-sm">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-on-primary shadow-sm">
+                        <span class="material-symbols-outlined text-[24px]">school</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span
+                            class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-tight">ProjectTrack</span>
+                        <span
+                            class="font-label-sm text-label-sm text-on-surface-variant font-normal leading-none mt-space-xs">Collaboration
+                            &amp; Progress Tracking</span>
+                    </div>
+                </a>
+
+                <nav class="hidden md:flex items-center gap-space-xs p-1 bg-surface-container-low rounded-xl">
+                    <a href="teacher-dashboard.html"
+                        class="px-space-md py-space-sm rounded-lg font-label-md text-label-md transition-colors bg-primary-container text-on-primary font-semibold shadow-sm">Dashboard</a>
+                    <a href="projects.html"
+                        class="px-space-md py-space-sm rounded-lg font-label-md text-label-md transition-colors text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high">Projects</a>
+
+                </nav>
+
+            </div>
+
+            <div class="flex items-center gap-space-md">
+
+                <div class="relative group">
+                    <button type="button"
+                        class="flex items-center gap-space-sm pl-space-xs pr-space-md py-space-xs rounded-full bg-surface-container-low hover:bg-surface-container-high transition-colors text-left focus:outline-none">
+                        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                            <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+                        </div>
+                        <div class="hidden sm:flex flex-col">
+                            <span class="font-label-md text-label-md text-on-surface leading-tight">Dr. Karim U.</span>
+                            <span
+                                class="font-label-sm text-label-sm text-on-surface-variant leading-none">Teacher</span>
+                        </div>
+                        <span
+                            class="material-symbols-outlined text-on-surface-variant text-[20px] transition-transform group-hover:rotate-180">expand_more</span>
+                    </button>
+
+                    <div
+                        class="absolute right-0 top-full w-56 pt-space-xs opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto transition-all z-50">
+                        <div
+                            class="bg-surface-container-lowest rounded-xl shadow-[0_10px_15px_-3px_rgba(15,23,42,0.06),0_4px_6px_-4px_rgba(15,23,42,0.04)] p-space-xs">
+                            <div class="px-space-md py-space-sm border-b border-surface-container-high">
+                                <div class="font-label-md text-label-md text-on-surface font-semibold truncate">Dr.
+                                    Karim Uddin</div>
+                                <div class="font-label-sm text-label-sm text-on-surface-variant truncate">sir@x.com
+                                </div>
+                            </div>
+                            <form action="login.html" method="get">
+                                <button type="submit"
+                                    class="w-full flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-error hover:text-on-error hover:bg-error transition-colors">
+                                    <span class="material-symbols-outlined text-[18px]">logout</span>Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full pt-20 bg-surface min-h-[calc(100vh-5rem)]">
+
+        <div class="relative w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin py-space-xl">
+            <div
+                class="absolute -top-12 left-1/3 w-96 h-96 bg-primary-fixed/30 rounded-full blur-3xl pointer-events-none -z-10">
+            </div>
+            <div
+                class="absolute top-20 right-10 w-80 h-80 bg-secondary-fixed/30 rounded-full blur-3xl pointer-events-none -z-10">
+            </div>
+
+            <div class="flex flex-col min-w-0 mb-space-xl">
+                <div class="flex items-center gap-space-sm mb-space-xs">
+                    <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-label-sm font-label-sm font-semibold bg-primary-fixed text-primary tracking-wide">FACULTY
+                        PORTAL</span>
+                </div>
+                <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Welcome back, Dr. Karim 👋
+                </h1>
+                <p class="font-body-md text-body-md text-on-surface-variant mt-1">Review student projects, check their
+                    progress and give feedback.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter mb-space-xl">
+                <div
+                    class="p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md">
+                    <div class="w-12 h-12 rounded-xl bg-primary-fixed/50 flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined text-[24px]">folder_special</span>
+                    </div>
+                    <div class="mt-space-lg">
+                        <span
+                            class="font-headline-lg text-headline-lg text-on-surface block leading-none font-bold">3</span>
+                        <span class="font-title-md text-title-md text-on-surface font-semibold block mt-1.5">Student
+                            Projects</span>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">All projects created by
+                            students</p>
+                    </div>
+                </div>
+
+                <div
+                    class="p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md">
+                    <div
+                        class="w-12 h-12 rounded-xl bg-secondary-fixed flex items-center justify-center text-secondary">
+                        <span class="material-symbols-outlined text-[24px]">rate_review</span>
+                    </div>
+                    <div class="mt-space-lg">
+                        <span
+                            class="font-headline-lg text-headline-lg text-on-surface block leading-none font-bold">2</span>
+                        <span class="font-title-md text-title-md text-on-surface font-semibold block mt-1.5">Needs
+                            Feedback</span>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Projects that have no feedback
+                            yet</p>
+                    </div>
+                </div>
+
+                <div
+                    class="p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md">
+                    <div class="w-12 h-12 rounded-xl bg-tertiary-fixed flex items-center justify-center text-tertiary">
+                        <span class="material-symbols-outlined text-[24px]">donut_large</span>
+                    </div>
+                    <div class="mt-space-lg">
+                        <span
+                            class="font-headline-lg text-headline-lg text-on-surface block leading-none font-bold">23%</span>
+                        <span class="font-title-md text-title-md text-on-surface font-semibold block mt-1.5">Average
+                            Progress</span>
+                        <div class="w-full bg-surface-container h-2 rounded-full mt-2 overflow-hidden">
+                            <div class="bg-primary-container h-full rounded-full transition-all duration-500"
+                                style="width: 23%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md">
+                    <div class="w-12 h-12 rounded-xl bg-error-container flex items-center justify-center text-error">
+                        <span class="material-symbols-outlined text-[24px]">crisis_alert</span>
+                    </div>
+                    <div class="mt-space-lg">
+                        <span class="font-headline-lg text-headline-lg text-error block leading-none font-bold">1</span>
+                        <span class="font-title-md text-title-md text-on-surface font-semibold block mt-1.5">Overdue
+                            Projects</span>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Deadline passed, still not
+                            complete</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rounded-2xl bg-surface-container-lowest shadow-sm overflow-hidden flex flex-col">
+                <div class="p-space-lg flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+                    <div class="flex items-center gap-space-sm">
+                        <h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">All Student Projects
+                        </h2>
+                        <span
+                            class="px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">3
+                            shown</span>
+                    </div>
+                </div>
+
+                <div class="px-space-lg pb-space-md flex flex-wrap gap-space-xs">
+                    <a href="?"
+                        class="px-3.5 py-1.5 rounded-xl font-label-md text-label-md transition-all bg-primary-container text-on-primary font-semibold">All
+                        Projects</a>
+
+                    <a href="?status=In%20Progress"
+                        class="px-3.5 py-1.5 rounded-xl font-label-md text-label-md transition-all bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-medium">In
+                        Progress</a>
+
+                    <a href="?status=Completed"
+                        class="px-3.5 py-1.5 rounded-xl font-label-md text-label-md transition-all bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-medium">Completed</a>
+
+                    <a href="?status=Overdue"
+                        class="px-3.5 py-1.5 rounded-xl font-label-md text-label-md transition-all bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-medium">Overdue</a>
+
+                    <a href="?status=Needs%20Feedback"
+                        class="px-3.5 py-1.5 rounded-xl font-label-md text-label-md transition-all bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-medium">Needs
+                        Feedback</a>
+
+                </div>
+
+                <form method="get"
+                    class="px-space-lg py-space-md bg-surface-container-low/70 flex items-center gap-space-sm">
+
+                    <div class="relative flex-1 max-w-xl">
+                        <span
+                            class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+                        <input type="text" name="q" value=""
+                            placeholder="Search by project title or student name/email..."
+                            class="w-full pl-11 pr-4 py-2.5 rounded-xl bg-surface-container-lowest text-on-surface font-body-sm text-body-sm placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary-container transition-all" />
+                    </div>
+                    <button type="submit"
+                        class="px-4 py-2.5 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md font-semibold">Search</button>
+
+                </form>
+
+                <div class="w-full overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr
+                                class="bg-surface-container-high/40 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider select-none">
+                                <th class="py-3.5 px-space-lg font-semibold" scope="col">Project</th>
+                                <th class="py-3.5 px-space-md font-semibold" scope="col">Team Members</th>
+                                <th class="py-3.5 px-space-md font-semibold" scope="col">Deadline</th>
+                                <th class="py-3.5 px-space-md font-semibold" scope="col">Progress</th>
+                                <th class="py-3.5 px-space-md font-semibold" scope="col">Status</th>
+                                <th class="py-3.5 px-space-lg text-right font-semibold" scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr class="transition-colors group hover:bg-surface-container-low/50">
+                                <td class="py-4 px-space-lg min-w-[280px]">
+                                    <div class="flex flex-col">
+                                        <a href="teacher-project-detail.html"
+                                            class="font-title-md text-title-md text-on-surface font-semibold group-hover:text-primary transition-colors">Weather
+                                            Station IoT</a>
+                                        <span
+                                            class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 max-w-md">Sensors
+                                            + dashboard.</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-space-md min-w-[200px]">
+                                    <div class="flex items-center gap-space-xs">
+                                        <div class="flex -space-x-2">
+
+                                            <div class="w-7 h-7 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-label-sm text-[10px] font-bold ring-2 ring-surface-container-lowest"
+                                                title="Tarek">TA</div>
+
+                                        </div>
+                                        <span
+                                            class="font-label-md text-label-md text-on-surface font-medium truncate">Tarek
+                                            <span class="text-on-surface-variant font-normal">(Lead)</span></span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-space-md whitespace-nowrap min-w-[150px]">
+                                    <div class="flex flex-col">
+                                        <span class="font-body-sm text-body-sm text-on-surface font-medium">Jan 03,
+                                            2027</span>
+                                        <span
+                                            class="inline-flex items-center gap-1 text-label-sm font-label-sm mt-0.5 text-on-surface-variant font-medium">
+                                            Due in 60 days
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-space-md min-w-[190px]">
+                                    <div class="flex flex-col">
+                                        <div
+                                            class="flex items-center justify-between text-label-sm font-label-sm font-semibold mb-1">
+                                            <span class="text-on-surface">0 / 0 tasks</span>
+                                            <span class="text-primary font-bold">0%</span>
+                                        </div>
+                                        <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+                                            <div class="h-full rounded-full transition-all duration-300 bg-primary-container"
+                                                style="width: 0%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-space-md whitespace-nowrap">
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold
+                bg-primary-fixed text-primary">
+                                        <span class="w-2 h-2 rounded-full bg-primary"></span>
+                                        In Progress
+                                    </span>
+                                </td>
+                                <td class="py-4 px-space-lg text-right whitespace-nowrap">
+
+                                    <a href="teacher-project-detail.html"
+                                        class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-primary-container text-on-primary font-label-md text-label-md font-semibold hover:bg-primary transition-all">
+                                        <span class="material-symbols-outlined text-[16px]">rate_review</span>Evaluate
+                                    </a>
+
+                                </td>
+                            </tr>
+
+                            <tr class="transition-colors group bg-error-container/10 hover:bg-error-container/20">
+                                <td class="py-4 px-space-lg min-w-[280px]">
+                                    <div class="flex flex-col">
+                                        <a href="teacher-project-detail.html"
+                                            class="font-title-md text-title-md text-on-surface font-semibold group-hover:text-primary transition-colors">Library
+                                            Management App</a>
+                                        <span
+                                            class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 max-w-md">Web
+                                            app for borrowing books.</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-space-md min-w-[200px]">
+                                    <div class="flex items-center gap-space-xs">
+                                        <div class="flex -space-x-2">
+
+                                            <div class="w-7 h-7 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-label-sm text-[10px] font-bold ring-2 ring-surface-container-lowest"
+                                                title="Rafi">RA</div>
+
+                                            <div class="w-7 h-7 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center font-label-sm text-[10px] font-bold ring-2 ring-surface-container-lowest"
+                                                title="Nila">NI</div>
+
+                                        </div>
+                                        <span
+                                            class="font-label-md text-label-md text-on-surface font-medium truncate">Nila
+                                            <span class="text-on-surface-variant font-normal">(Lead)</span></span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-space-md whitespace-nowrap min-w-[150px]">
+                                    <div class="flex flex-col">
+                                        <span class="font-body-sm text-body-sm text-on-surface font-medium">Nov 01,
+                                            2026</span>
+                                        <span
+                                            class="inline-flex items-center gap-1 text-label-sm font-label-sm mt-0.5 text-error font-bold">
+                                            <span class="material-symbols-outlined text-[14px]">warning</span>Overdue by
+                                            3 days
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-space-md min-w-[190px]">
+                                    <div class="flex flex-col">
+                                        <div
+                                            class="flex items-center justify-between text-label-sm font-label-sm font-semibold mb-1">
+                                            <span class="text-on-surface">1 / 2 tasks</span>
+                                            <span class="text-error font-bold">50%</span>
+                                        </div>
+                                        <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+                                            <div class="h-full rounded-full transition-all duration-300 bg-error"
+                                                style="width: 50%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-space-md whitespace-nowrap">
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold
+                bg-error-container text-error
+                ">
+                                        <span class="w-2 h-2 rounded-full bg-error"></span>
+                                        Overdue
+                                    </span>
+                                </td>
+                                <td class="py-4 px-space-lg text-right whitespace-nowrap">
+
+                                    <a href="teacher-project-detail.html"
+                                        class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-primary-container text-on-primary font-label-md text-label-md font-semibold hover:bg-primary transition-all">
+                                        <span class="material-symbols-outlined text-[16px]">rate_review</span>Evaluate
+                                    </a>
+
+                                </td>
+                            </tr>
+
+                            <tr class="transition-colors group hover:bg-surface-container-low/50">
+                                <td class="py-4 px-space-lg min-w-[280px]">
+                                    <div class="flex flex-col">
+                                        <a href="teacher-project-detail.html"
+                                            class="font-title-md text-title-md text-on-surface font-semibold group-hover:text-primary transition-colors">Autonomous
+                                            Campus Drone Navigation</a>
+                                        <span
+                                            class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 max-w-md">Build
+                                            a drone that maps the campus and navigates between buildings using computer
+                                            vision.</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-space-md min-w-[200px]">
+                                    <div class="flex items-center gap-space-xs">
+                                        <div class="flex -space-x-2">
+
+                                            <div class="w-7 h-7 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-label-sm text-[10px] font-bold ring-2 ring-surface-container-lowest"
+                                                title="Rafi">RA</div>
+
+                                            <div class="w-7 h-7 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center font-label-sm text-[10px] font-bold ring-2 ring-surface-container-lowest"
+                                                title="Nila">NI</div>
+
+                                            <div class="w-7 h-7 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-label-sm text-[10px] font-bold ring-2 ring-surface-container-lowest"
+                                                title="Tarek">TA</div>
+
+                                        </div>
+                                        <span
+                                            class="font-label-md text-label-md text-on-surface font-medium truncate">Rafi
+                                            <span class="text-on-surface-variant font-normal">(Lead)</span></span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-space-md whitespace-nowrap min-w-[150px]">
+                                    <div class="flex flex-col">
+                                        <span class="font-body-sm text-body-sm text-on-surface font-medium">Nov 25,
+                                            2026</span>
+                                        <span
+                                            class="inline-flex items-center gap-1 text-label-sm font-label-sm mt-0.5 text-on-surface-variant font-medium">
+                                            Due in 21 days
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-space-md min-w-[190px]">
+                                    <div class="flex flex-col">
+                                        <div
+                                            class="flex items-center justify-between text-label-sm font-label-sm font-semibold mb-1">
+                                            <span class="text-on-surface">1 / 5 tasks</span>
+                                            <span class="text-primary font-bold">20%</span>
+                                        </div>
+                                        <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+                                            <div class="h-full rounded-full transition-all duration-300 bg-primary-container"
+                                                style="width: 20%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-space-md whitespace-nowrap">
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold
+                bg-primary-fixed text-primary">
+                                        <span class="w-2 h-2 rounded-full bg-primary"></span>
+                                        In Progress
+                                    </span>
+                                </td>
+                                <td class="py-4 px-space-lg text-right whitespace-nowrap">
+
+                                    <a href="teacher-project-detail.html"
+                                        class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-surface-container-high text-primary font-label-md text-label-md font-semibold hover:bg-primary-container hover:text-on-primary transition-all">
+                                        <span class="material-symbols-outlined text-[16px]">visibility</span>View
+                                        Details
+                                    </a>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="px-space-lg py-space-md font-body-sm text-body-sm text-on-surface-variant">
+                    Showing <span class="font-semibold text-on-surface">3</span> of <span
+                        class="font-semibold text-on-surface">3</span> projects
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="w-full bg-surface-container-low shadow-[0_-1px_4px_rgba(0,0,0,0.02)]">
+        <div class="w-full px-gutter py-space-xl flex items-center justify-center md:justify-start gap-space-sm">
+            <div class="w-6 h-6 rounded-lg bg-primary-container flex items-center justify-center text-on-primary">
+                <span class="material-symbols-outlined text-[14px]">school</span>
+            </div>
+            <span class="font-body-sm text-body-sm text-on-surface-variant">© 2026 ProjectTrack. Student Project
+                Collaboration &amp; Progress Tracking System.</span>
+        </div>
+    </footer>
+
+</body>
+
+</html>
