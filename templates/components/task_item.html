@@ -1,0 +1,30 @@
+{# Use: {% include 'components/task_item.html' %} (task variable lagbe) - dashboard ar My Tasks e chhoto task row #}
+<a href="/projects/{{ task.project_id }}"
+    class="p-space-md rounded-xl bg-surface hover:bg-surface-container-low transition-colors duration-150 flex flex-col gap-space-xs group">
+    <div class="flex items-start justify-between gap-2">
+        <span class="font-label-sm text-label-sm text-primary font-medium tracking-tight truncate">{{ task.project_title
+            }}</span>
+        {% if task.priority == 'high' %}
+        <span
+            class="inline-flex items-center px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold shrink-0">High
+            Priority</span>
+        {% else %}
+        <span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">{{ task.priority_label }}</span>
+        {% endif %}
+    </div>
+    <p
+        class="font-body-md text-body-md font-semibold group-hover:text-primary transition-colors {% if task.status == 'done' %}text-on-surface/60 line-through{% else %}text-on-surface{% endif %}">
+        {{ task.title }}</p>
+    <div class="flex items-center justify-between pt-1">
+        <div
+            class="flex items-center gap-1.5 font-label-sm text-label-sm {% if task.overdue %}text-error{% else %}text-on-surface-variant{% endif %}">
+            <span class="material-symbols-outlined text-[16px]">{% if task.status == 'done' %}event_available{% else
+                %}schedule{% endif %}</span>
+            <span>{% if task.due_date %}{{ task.due_date.strftime('%b %d') }}{% if task.overdue %} (overdue){% endif
+                %}{% else %}No due date{% endif %}</span>
+        </div>
+        <span class="px-2.5 py-0.5 rounded-full font-label-sm text-label-sm
+      {% if task.status == 'done' %}bg-tertiary-fixed text-on-tertiary-fixed
+      {% elif task.status == 'doing' %}bg-surface-container-highest text-on-surface
+      {% else %}bg-surface-container text-on-surface-variant{% endif %}">{{ task.status_label }}</span>
+</a>

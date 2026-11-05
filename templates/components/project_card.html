@@ -1,0 +1,71 @@
+{# Use: {% include 'components/project_card.html' %} (project variable lagbe) #}
+{% set status = project.status %}
+{% set tone = project.tone %}
+{% set total = project.total %}
+{% set done = project.done %}
+<article
+    class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-all duration-200 flex flex-col gap-space-md group">
+    <div class="flex flex-col gap-1.5 min-w-0">
+        <div class="flex items-center gap-2 flex-wrap">
+            <span class="px-3 py-0.5 rounded-full font-label-sm text-label-sm
+        {% if status == 'Completed' %}bg-tertiary-fixed text-on-tertiary-fixed
+        {% elif status == 'Overdue' %}bg-error-container text-on-error-container
+        {% else %}bg-primary-fixed text-primary{% endif %}">{{ status }}</span>
+            <span
+                class="inline-flex items-center gap-1 font-label-sm text-label-sm
+        {% if tone == 'error' %}text-error font-semibold{% elif tone == 'done' %}text-tertiary font-semibold{% else %}text-on-surface-variant{% endif %}">
+                <span class="material-symbols-outlined text-[14px]">{% if tone == 'error' %}event_upcoming{% elif tone
+                    == 'done' %}task_alt{% else %}calendar_today{% endif %}</span>
+                {{ project.deadline.strftime('%b %d, %Y') }} &middot; {{ project.deadline_text }}
+            </span>
+        </div>
+        <a href="/projects/{{ project.id }}"
+            class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">{{
+            project.title }}</a>
+        <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">{{ project.description }}</p>
+    </div>
+
+    <div class="flex flex-col gap-2">
+        <div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-[16px] text-primary">flag</span>
+                <span class="text-on-surface font-semibold">{{ done }} of {{ total }} task{{ 's' if total != 1 }}
+                    done</span>
+            </div>
+            <span class="font-semibold text-primary">{{ project.progress }}% Completed</span>
+        </div>
+        <div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+            <div class="h-full rounded-full transition-all duration-500 {% if status == 'Completed' %}bg-tertiary{% elif status == 'Overdue' %}bg-error{% else %}bg-primary{% endif %}"
+                style="width: {{ project.progress }}%"></div>
+        </div>
+    </div>
+
+    <div class="flex items-center justify-between pt-space-xs">
+        <div class="flex items-center gap-3">
+            <span class="font-label-sm text-label-sm text-on-surface-variant">Team:</span>
+            <div class="flex items-center -space-x-2">
+                {% for m in project.members[:4] %}
+                <span
+                    class="inline-flex items-center justify-center w-8 h-8 rounded-full {{ m.id|avatar }} ring-2 ring-surface-container-lowest font-label-sm text-label-sm"
+                    title="{{ m.name|first_name }}">{{ m.name|initials }}</span>
+                {% endfor %}
+                {% set extra = project.members|length - 4 %}
+                {% if extra > 0 %}
+                <span
+                    class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm ring-2 ring-surface-container-lowest">+{{
+                    extra }}</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <span
+                class="inline-flex items-center gap-1 font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2.5 py-1 rounded-lg">
+                <span class="material-symbols-outlined text-[14px]">comment</span> {{ project.comment_count }}
+            </span>
+            <a href="/projects/{{ project.id }}"
+                class="p-1.5 rounded-lg text-primary hover:bg-surface-container transition-colors font-label-sm text-label-sm flex items-center">
+                Workspace <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </a>
+        </div>
+    </div>
+</article>
