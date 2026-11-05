@@ -36,7 +36,7 @@
         </div>
         <div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
             <div class="h-full rounded-full transition-all duration-500 {% if status == 'Completed' %}bg-tertiary{% elif status == 'Overdue' %}bg-error{% else %}bg-primary{% endif %}"
-                style="width: {{ project.progress }}%"></div>
+                <div :style="{ width: project.progress + '%' }"></div>
         </div>
     </div>
 
