@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html class="h-full" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} | ProjectTrack</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+
+<!-- Login ar Register page er common layout (upore logo, majhkhane card, niche footer) -->
+
+<body
+    class="min-h-full bg-background font-body-md text-body-md text-on-surface flex flex-col relative selection:bg-primary-fixed selection:text-on-primary-fixed">
+
+    <!-- Background er halka design -->
+    <div class="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
+        <div
+            class="absolute -top-[20%] left-1/2 -translate-x-1/2 w-[720px] h-[480px] rounded-full bg-surface-container-high/60 blur-[120px]">
+        </div>
+        <div
+            class="absolute inset-0 bg-[radial-gradient(#c7c4d8_1px,transparent_1px)] [background-size:24px_24px] opacity-25">
+        </div>
+    </div>
+
+    <!-- Upore logo -->
+    <header class="w-full flex-shrink-0">
+        <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin h-16 flex items-center justify-between">
+            <div class="flex items-center gap-space-sm">
+                <div
+                    class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary shadow-sm">
+                    <span class="material-symbols-outlined text-[20px]">school</span>
+                </div>
+                <div class="flex flex-col">
+                    <span
+                        class="font-title-md text-title-md text-on-surface leading-tight tracking-tight">ProjectTrack</span>
+                    <span
+                        class="font-label-sm text-label-sm text-on-surface-variant font-medium hidden sm:inline-block">Collaboration
+                        &amp; Progress Tracking</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex flex-col justify-center items-center w-full px-margin-mobile md:px-margin py-space-xl">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="w-full flex-shrink-0">
+        <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin py-space-md text-center sm:text-left">
+            <p class="font-body-sm text-body-sm text-on-surface-variant">© 2026 ProjectTrack. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
