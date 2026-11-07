@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}My Tasks{% endblock %}
+
+{% block content %}
+{# Variables: tasks (list), status, status_choices - app.py theke ashe #}
+<div class="max-w-4xl w-full mx-auto px-gutter py-space-xl flex flex-col gap-space-lg">
+    <div class="flex flex-col gap-space-xs">
+        <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">My Tasks</h1>
+        <p class="font-body-md text-body-md text-on-surface-variant">Tasks that are assigned to you across all projects.
+        </p>
+    </div>
+
+    <div class="flex items-center bg-surface-container-low p-1 rounded-xl self-start">
+        <a href="/my-tasks"
+            class="px-4 py-1.5 rounded-lg font-label-md text-label-md transition-colors {% if not status %}bg-surface-container-lowest text-primary shadow-sm font-semibold{% else %}text-on-surface-variant hover:text-on-surface{% endif %}">All</a>
+        {% for value, label in status_choices %}
+        <a href="?status={{ value }}"
+            class="px-4 py-1.5 rounded-lg font-label-md text-label-md transition-colors {% if status == value %}bg-surface-container-lowest text-primary shadow-sm font-semibold{% else %}text-on-surface-variant hover:text-on-surface{% endif %}">{{
+            label }}</a>
+        {% endfor %}
+    </div>
+
+    <div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-sm flex flex-col gap-space-sm">
+        {% for task in tasks %}
+        {% include 'components/task_item.html' %}
+        {% else %}
+        <p class="p-space-xl text-center font-body-sm text-body-sm text-on-surface-variant">Tomar kache kono task nai.
+        </p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

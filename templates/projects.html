@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+{# Variable: projects (list) - app.py theke ashe #}
+<div class="max-w-[1440px] w-full mx-auto px-gutter py-space-xl flex flex-col gap-space-xl">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+        <div class="flex flex-col gap-space-xs">
+            <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">{% if user.role == 'teacher'
+                %}All Projects{% else %}My Projects{% endif %}</h1>
+            <p class="font-body-md text-body-md text-on-surface-variant">
+                {{ projects|length }} project{{ 's' if projects|length != 1 }}
+                {% if user.role == 'teacher' %}submitted by students{% else %}you own or are a member of{% endif %}
+            </p>
+        </div>
+        {% if user.role == 'student' %}
+        <a href="/projects/new"
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md shadow-sm hover:shadow-md transition-all self-start">
+            <span class="material-symbols-outlined text-[20px]">add</span><span>New Project</span>
+        </a>
+        {% endif %}
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-space-lg">
+        {% for project in projects %}
+        {% include 'components/project_card.html' %}
+        {% else %}
+        <div class="xl:col-span-2 bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm text-center">
+            <span class="material-symbols-outlined text-[40px] text-outline-variant">folder_open</span>
+            <p class="font-body-md text-body-md text-on-surface-variant mt-2">Kono project nai.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

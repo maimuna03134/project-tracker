@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if editing %}Edit Project{% else %}Create New Project{% endif %}{% endblock %}
+
+{% block content %}
+{# Variables (app.py theke): form (dict), students (list), error, editing, project #}
+<div class="w-full max-w-[1440px] mx-auto px-gutter-mobile sm:px-gutter py-space-xl">
+
+    <div class="flex flex-col gap-space-xs mb-space-xl max-w-3xl mx-auto">
+        <nav class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+            <a class="hover:text-primary transition-colors flex items-center gap-1" href="/projects">
+                <span class="material-symbols-outlined text-[16px]">folder_copy</span>Projects
+            </a>
+            <span class="material-symbols-outlined text-[14px] text-outline-variant">chevron_right</span>
+            <span class="text-on-surface font-semibold">{% if editing %}Edit Project{% else %}Create New Project{% endif
+                %}</span>
+        </nav>
+        <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mt-space-xs">{% if editing %}Edit
+            Project{% else %}Create New Project{% endif %}</h1>
+        <p class="font-body-md text-body-md text-on-surface-variant">
+            Set up a collaborative workspace, choose a deadline, and invite your team members.
+        </p>
+    </div>
+
+    <div class="max-w-3xl mx-auto">
+        <form method="post"
+            class="bg-surface-container-lowest rounded-2xl shadow-sm p-space-lg sm:p-space-xl flex flex-col gap-space-xl">
+            {% if error %}
+            <div class="rounded-xl bg-error-container text-on-error-container px-4 py-3 font-body-sm text-body-sm">{{
+                error }}</div>
+            {% endif %}
+
+            {# ---------- 1. Title ---------- #}
+            <div class="flex flex-col gap-1.5">
+                <label class="flex items-center justify-between font-label-md text-label-md text-on-surface"
+                    for="project-title">
+                    <span class="flex items-center gap-1">Project Title <span
+                            class="text-error font-semibold">*</span></span>
+                    <span class="text-on-surface-variant font-label-sm text-label-sm font-normal">Max 200
+                        characters</span>
+                </label>
+                <input id="project-title" name="title" type="text" required maxlength="200" value="{{ form.title }}"
+                    placeholder="e.g., Library Management System"
+                    class="w-full bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-md text-body-md rounded-xl px-space-md py-2.5 transition-all outline-none focus:ring-2 focus:ring-primary-container/20 shadow-sm" />
+                <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Choose a short, clear title for your
+                    team project.</p>
+            </div>
+
+            {# ---------- 2. Description ---------- #}
+            <div class="flex flex-col gap-1.5">
+                <div class="flex items-center justify-between">
+                    <label class="font-label-md text-label-md text-on-surface flex items-center gap-1"
+                        for="project-description">
+                        Project Scope &amp; Abstract <span class="text-error font-semibold">*</span>
+                    </label>
+                    <span class="font-medium text-on-surface-variant font-label-sm text-label-sm">Max 2000
+                        characters</span>
+                </div>
+                <div
+                    class="rounded-xl bg-surface-container-lowest shadow-sm overflow-hidden flex flex-col focus-within:ring-2 focus-within:ring-primary-container/20 transition-all">
+                    <textarea id="project-description" name="description" rows="6" maxlength="2000" required
+                        placeholder="Summarize the objectives, the tools you will use, and the final deliverables..."
+                        class="w-full p-space-md bg-transparent text-on-surface placeholder:text-outline font-body-md text-body-md outline-none resize-y">{{ form.description }}</textarea>
+                </div>
+            </div>
+
+            {# ---------- 3. Deadline ---------- #}
+            <div class="flex flex-col gap-space-sm">
+                <label class="font-label-md text-label-md text-on-surface flex items-center gap-1"
+                    for="deliverable-deadline">
+                    Deadline <span class="text-error font-semibold">*</span>
+                </label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+                    <div class="relative">
+                        <input id="deliverable-deadline" name="deadline" type="date" required
+                            value="{{ form.deadline }}"
+                            class="w-full bg-surface-container-lowest text-on-surface font-body-md text-body-md rounded-xl pl-11 pr-space-md py-2.5 outline-none shadow-sm focus:ring-2 focus:ring-primary-container/20 transition-all" />
+                        <span
+                            class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-primary text-[20px] pointer-events-none">calendar_today</span>
+                    </div>
+                </div>
+            </div>
+
+            {# ---------- 4. Team members ---------- #}
+            <div class="flex flex-col gap-space-sm">
+                <div class="flex items-center justify-between">
+                    <label class="font-label-md text-label-md text-on-surface flex items-center gap-1.5">
+                        <span>Invite Team Members</span>
+                    </label>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">You are added automatically</span>
+                </div>
+
+                <div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-space-sm">
+                    <div class="flex flex-wrap items-center gap-space-xs max-h-56 overflow-y-auto" id="member-list">
+                        {% for s in students %}
+                        <label class="member-pill cursor-pointer">
+                            <input type="checkbox" name="members" value="{{ s.id }}" class="peer sr-only" {% if s.id in
+                                form.members %}checked{% endif %}>
+                            <span
+                                class="flex items-center gap-space-xs pl-1.5 pr-3 py-1 rounded-full bg-surface-container-lowest text-on-surface shadow-sm ring-2 ring-transparent transition-all hover:bg-primary-fixed peer-checked:ring-primary-container peer-checked:bg-primary-fixed">
+                                <span
+                                    class="w-6 h-6 rounded-full {{ s.id|avatar }} font-label-sm text-[10px] flex items-center justify-center font-bold">{{
+                                    s.name|initials }}</span>
+                                <span class="font-label-md text-label-md">{{ s.name|first_name }}</span>
+                                <span
+                                    class="text-on-surface-variant font-label-sm text-label-sm font-normal hidden sm:inline">{{
+                                    s.email }}</span>
+                            </span>
+                        </label>
+                        {% else %}
+                        <p class="font-body-sm text-body-sm text-on-surface-variant px-2 py-1">Ekhono onno kono student
+                            register kore nai.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            {# ---------- Buttons ---------- #}
+            <div class="pt-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md">
+                <a href="{% if editing %}/projects/{{ project.id }}{% else %}/dashboard{% endif %}"
+                    class="order-2 sm:order-1 w-full sm:w-auto px-space-lg py-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors text-center">Cancel</a>
+                <button type="submit"
+                    class="order-1 sm:order-2 w-full sm:w-auto px-space-xl py-2.5 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md font-semibold transition-all shadow-[0_4px_12px_rgba(79,70,229,0.25)] hover:shadow-lg flex items-center justify-center gap-2 group">
+                    <span>{% if editing %}Save Changes{% else %}Create Project{% endif %}</span>
+                    <span
+                        class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

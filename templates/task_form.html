@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if editing %}Edit Task{% else %}Add Task{% endif %}{% endblock %}
+
+{% block content %}
+{# Variables (app.py theke): form (dict), members (list), project, error, editing #}
+<div class="w-full max-w-[1440px] mx-auto px-gutter-mobile sm:px-gutter py-space-xl">
+
+    <div class="flex flex-col gap-space-xs mb-space-xl max-w-3xl mx-auto">
+        <nav class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm flex-wrap">
+            <a class="hover:text-primary transition-colors flex items-center gap-1" href="/projects">
+                <span class="material-symbols-outlined text-[16px]">folder_copy</span>Projects
+            </a>
+            <span class="material-symbols-outlined text-[14px] text-outline-variant">chevron_right</span>
+            <a class="hover:text-primary transition-colors" href="/projects/{{ project.id }}">{{ project.title }}</a>
+            <span class="material-symbols-outlined text-[14px] text-outline-variant">chevron_right</span>
+            <span class="text-on-surface font-semibold">{% if editing %}Edit Task{% else %}New Task{% endif %}</span>
+        </nav>
+        <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mt-space-xs">{% if editing %}Edit
+            Task{% else %}Create Task{% endif %}</h1>
+        <p class="font-body-md text-body-md text-on-surface-variant">Write the task, choose who will do it, and set a
+            due date.</p>
+    </div>
+
+    <div class="max-w-3xl mx-auto">
+        <form method="post"
+            class="bg-surface-container-lowest rounded-2xl shadow-sm p-space-lg sm:p-space-xl flex flex-col gap-space-lg">
+            {% if error %}
+            <div class="rounded-xl bg-error-container text-on-error-container px-4 py-3 font-body-sm text-body-sm">{{
+                error }}</div>
+            {% endif %}
+
+            {# Title #}
+            <div class="flex flex-col gap-1.5">
+                <label class="font-label-md text-label-md text-on-surface font-semibold" for="taskTitle">Task Title
+                    <span class="text-error">*</span></label>
+                <input id="taskTitle" name="title" type="text" required maxlength="200" value="{{ form.title }}"
+                    placeholder="e.g., Design the database tables"
+                    class="w-full bg-surface-container-low/40 text-on-surface placeholder:text-outline font-body-md text-body-md rounded-xl px-space-md py-2.5 outline-none shadow-sm focus:ring-2 focus:ring-primary-container/20 focus:bg-surface-container-lowest transition-all" />
+            </div>
+
+            {# Description #}
+            <div class="flex flex-col gap-1.5">
+                <label class="font-label-md text-label-md text-on-surface font-semibold"
+                    for="taskDescription">Description</label>
+                <textarea id="taskDescription" name="description" rows="4" placeholder="What exactly needs to be done?"
+                    class="w-full bg-surface-container-low/40 text-on-surface placeholder:text-outline font-body-md text-body-md rounded-xl p-space-md outline-none shadow-sm focus:ring-2 focus:ring-primary-container/20 focus:bg-surface-container-lowest transition-all resize-y">{{ form.description }}</textarea>
+            </div>
+
+            {# Assignee + Status #}
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-lg">
+                <div class="flex flex-col gap-1.5">
+                    <label class="font-label-md text-label-md text-on-surface font-semibold" for="taskAssignee">Assigned
+                        Member</label>
+                    <select id="taskAssignee" name="assigned_to"
+                        class="w-full bg-surface-container-low/40 text-on-surface font-body-md text-body-md rounded-xl px-space-md py-2.5 outline-none shadow-sm focus:ring-2 focus:ring-primary-container/20">
+                        <option value="">Unassigned</option>
+                        {% for m in members %}
+                        <option value="{{ m.id }}" {% if form.assigned_to==m.id|string %}selected{% endif %}>{{ m.name
+                            }} ({{ m.email }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <label class="font-label-md text-label-md text-on-surface font-semibold"
+                        for="taskStatus">Status</label>
+                    <select id="taskStatus" name="status"
+                        class="w-full bg-surface-container-low/40 text-on-surface font-body-md text-body-md rounded-xl px-space-md py-2.5 outline-none shadow-sm focus:ring-2 focus:ring-primary-container/20">
+                        <option value="todo" {% if form.status=='todo' %}selected{% endif %}>To Do</option>
+                        <option value="doing" {% if form.status=='doing' %}selected{% endif %}>In Progress</option>
+                        <option value="done" {% if form.status=='done' %}selected{% endif %}>Done</option>
+                    </select>
+                </div>
+            </div>
+
+            {# Priority + Due date #}
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-lg">
+                <div class="flex flex-col gap-1.5">
+                    <label class="font-label-md text-label-md text-on-surface font-semibold"
+                        for="taskPriority">Priority</label>
+                    <select id="taskPriority" name="priority"
+                        class="w-full bg-surface-container-low/40 text-on-surface font-body-md text-body-md rounded-xl px-space-md py-2.5 outline-none shadow-sm focus:ring-2 focus:ring-primary-container/20">
+                        <option value="low" {% if form.priority=='low' %}selected{% endif %}>Low</option>
+                        <option value="medium" {% if form.priority=='medium' %}selected{% endif %}>Medium</option>
+                        <option value="high" {% if form.priority=='high' %}selected{% endif %}>High</option>
+                    </select>
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <label class="font-label-md text-label-md text-on-surface font-semibold" for="dueDate">Due
+                        Date</label>
+                    <input id="dueDate" name="due_date" type="date" value="{{ form.due_date }}"
+                        class="w-full bg-surface-container-low/40 text-on-surface font-body-md text-body-md rounded-xl px-space-md py-2.5 outline-none shadow-sm focus:ring-2 focus:ring-primary-container/20" />
+                </div>
+            </div>
+
+            {# Buttons #}
+            <div class="pt-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md">
+                <a href="/projects/{{ project.id }}"
+                    class="order-2 sm:order-1 w-full sm:w-auto px-space-lg py-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors text-center">Cancel</a>
+                <button type="submit"
+                    class="order-1 sm:order-2 w-full sm:w-auto px-space-xl py-2.5 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md font-semibold transition-all shadow-[0_4px_12px_rgba(79,70,229,0.25)] flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">check</span>Save Task
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

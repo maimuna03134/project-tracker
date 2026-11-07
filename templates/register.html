@@ -1,221 +1,171 @@
-<!DOCTYPE html>
-<html class="h-full" lang="en">
+{% extends 'auth_base.html' %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account | ProjectTrack</title>
+{% block title %}Create Account{% endblock %}
 
-    <!-- Font ar icon -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-
-    <!-- Amader design -->
-    <link href="css/style.css" rel="stylesheet">
-</head>
-
-<body
-    class="min-h-full bg-background font-body-md text-body-md text-on-surface flex flex-col relative selection:bg-primary-fixed selection:text-on-primary-fixed">
-
-    <!-- Background er halka design -->
-    <div class="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
-        <div
-            class="absolute -top-[20%] left-1/2 -translate-x-1/2 w-[720px] h-[480px] rounded-full bg-surface-container-high/60 blur-[120px]">
-        </div>
-        <div
-            class="absolute inset-0 bg-[radial-gradient(#c7c4d8_1px,transparent_1px)] [background-size:24px_24px] opacity-25">
-        </div>
+{% block content %}
+<!-- Register card -->
+<div
+    class="w-full max-w-[620px] bg-surface-container-lowest rounded-2xl shadow-xl p-space-md sm:p-space-xl relative overflow-hidden">
+    <div class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-primary-fixed/40 blur-2xl pointer-events-none">
+    </div>
+    <div class="absolute -bottom-10 -left-10 w-44 h-44 rounded-full bg-secondary-fixed/30 blur-2xl pointer-events-none">
     </div>
 
-    <!-- Upore logo -->
-    <header class="w-full flex-shrink-0">
-        <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin h-16 flex items-center justify-between">
-            <div class="flex items-center gap-space-sm">
-                <div
-                    class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary shadow-sm">
-                    <span class="material-symbols-outlined text-[20px]">school</span>
-                </div>
-                <div class="flex flex-col">
-                    <span
-                        class="font-title-md text-title-md text-on-surface leading-tight tracking-tight">ProjectTrack</span>
-                    <span
-                        class="font-label-sm text-label-sm text-on-surface-variant font-medium hidden sm:inline-block">Collaboration
-                        &amp; Progress Tracking</span>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main class="flex-1 flex flex-col justify-center items-center w-full px-margin-mobile md:px-margin py-space-xl">
-
-        <!-- Register card -->
+    <!-- Title -->
+    <div class="relative flex flex-col items-center text-center mb-space-lg">
         <div
-            class="w-full max-w-[620px] bg-surface-container-lowest rounded-2xl shadow-xl p-space-md sm:p-space-xl relative overflow-hidden">
-            <div
-                class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-primary-fixed/40 blur-2xl pointer-events-none">
-            </div>
-            <div
-                class="absolute -bottom-10 -left-10 w-44 h-44 rounded-full bg-secondary-fixed/30 blur-2xl pointer-events-none">
-            </div>
+            class="w-14 h-14 rounded-2xl bg-surface-container flex items-center justify-center text-primary shadow-sm mb-space-sm">
+            <span class="material-symbols-outlined text-[30px]" style="font-variation-settings: 'FILL' 1;">school</span>
+        </div>
+        <h1 class="font-headline-md text-headline-md text-on-surface tracking-tight">Create an Account</h1>
+        <p class="font-body-sm text-body-sm text-on-surface-variant max-w-md mt-1">
+            Join your team, collaborate on projects, and track progress together.
+        </p>
+    </div>
 
-            <!-- Title -->
-            <div class="relative flex flex-col items-center text-center mb-space-lg">
-                <div
-                    class="w-14 h-14 rounded-2xl bg-surface-container flex items-center justify-center text-primary shadow-sm mb-space-sm">
-                    <span class="material-symbols-outlined text-[30px]"
-                        style="font-variation-settings: 'FILL' 1;">school</span>
-                </div>
-                <h1 class="font-headline-md text-headline-md text-on-surface tracking-tight">Create an Account</h1>
-                <p class="font-body-sm text-body-sm text-on-surface-variant max-w-md mt-1">
-                    Join your team, collaborate on projects, and track progress together.
-                </p>
-            </div>
+    <!-- Error message -->
+    {% if error %}
+    <div
+        class="relative mb-space-md flex items-start gap-2 rounded-xl bg-error-container text-on-error-container px-4 py-3 font-body-sm text-body-sm">
+        <span class="material-symbols-outlined text-[18px]">error</span>
+        <span>{{ error }}</span>
+    </div>
+    {% endif %}
 
-            <!-- Form (ekhon action="login.html"; pore Python er link boshabo) -->
-            <form class="relative flex flex-col gap-space-md" action="login.html" method="get">
+    <!-- Form: POST kore /register route e jay -->
+    <form class="relative flex flex-col gap-space-md" action="/register" method="post">
 
-                <!-- ---------- Role: Student / Teacher ---------- -->
-                <!-- Radio button lukano ache. Click korle CSS nijei card er rong bodlay (JavaScript lage na) -->
-                <div class="flex flex-col gap-1.5">
-                    <span class="font-label-md text-label-md text-on-surface">Select Role</span>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+        <!-- ---------- Role: Student / Teacher ---------- -->
+        <!-- Radio button lukano ache. Click korle CSS nijei card er rong bodlay (JavaScript lage na) -->
+        <div class="flex flex-col gap-1.5">
+            <span class="font-label-md text-label-md text-on-surface">Select Role</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
 
-                        <!-- Student card -->
-                        <label
-                            class="group relative flex flex-col p-3.5 rounded-xl cursor-pointer transition-all duration-200 shadow-sm text-on-surface bg-surface-container-lowest opacity-90 hover:opacity-100 has-[:checked]:bg-surface-container-low has-[:checked]:opacity-100">
-                            <input class="sr-only" type="radio" name="role" value="student" checked />
-                            <div class="flex items-start justify-between mb-1.5">
-                                <div class="flex items-center gap-2">
-                                    <div
-                                        class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors bg-surface-container-highest text-on-surface-variant group-has-[:checked]:bg-primary-container group-has-[:checked]:text-on-primary">
-                                        <span class="material-symbols-outlined text-[20px]">person</span>
-                                    </div>
-                                    <div class="text-left">
-                                        <p
-                                            class="font-title-md text-title-md font-semibold text-on-surface leading-tight">
-                                            Student</p>
-                                        <span
-                                            class="font-label-sm text-label-sm font-medium text-on-surface-variant group-has-[:checked]:text-primary">Project
-                                            Member</span>
-                                    </div>
-                                </div>
-                                <div
-                                    class="w-5 h-5 rounded-full flex items-center justify-center bg-surface-container text-transparent group-has-[:checked]:bg-primary-container group-has-[:checked]:text-on-primary">
-                                    <span class="material-symbols-outlined text-[14px]">check</span>
-                                </div>
+                <!-- Student card -->
+                <label
+                    class="group relative flex flex-col p-3.5 rounded-xl cursor-pointer transition-all duration-200 shadow-sm text-on-surface bg-surface-container-lowest opacity-90 hover:opacity-100 has-[:checked]:bg-surface-container-low has-[:checked]:opacity-100">
+                    <input class="sr-only" type="radio" name="role" value="student" {% if form.role !='teacher'
+                        %}checked{% endif %} />
+                    <div class="flex items-start justify-between mb-1.5">
+                        <div class="flex items-center gap-2">
+                            <div
+                                class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors bg-surface-container-highest text-on-surface-variant group-has-[:checked]:bg-primary-container group-has-[:checked]:text-on-primary">
+                                <span class="material-symbols-outlined text-[20px]">person</span>
                             </div>
-                            <p class="font-body-sm text-body-sm text-on-surface-variant text-left leading-snug">
-                                Create projects, manage tasks, collaborate with peers &amp; track progress.
-                            </p>
-                        </label>
-
-                        <!-- Teacher card -->
-                        <label
-                            class="group relative flex flex-col p-3.5 rounded-xl cursor-pointer transition-all duration-200 shadow-sm text-on-surface bg-surface-container-lowest opacity-90 hover:opacity-100 has-[:checked]:bg-surface-container-low has-[:checked]:opacity-100">
-                            <input class="sr-only" type="radio" name="role" value="teacher" />
-                            <div class="flex items-start justify-between mb-1.5">
-                                <div class="flex items-center gap-2">
-                                    <div
-                                        class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors bg-surface-container-highest text-on-surface-variant group-has-[:checked]:bg-primary-container group-has-[:checked]:text-on-primary">
-                                        <span class="material-symbols-outlined text-[20px]">co_present</span>
-                                    </div>
-                                    <div class="text-left">
-                                        <p
-                                            class="font-title-md text-title-md font-semibold text-on-surface leading-tight">
-                                            Teacher / Advisor</p>
-                                        <span
-                                            class="font-label-sm text-label-sm font-medium text-on-surface-variant group-has-[:checked]:text-primary">Faculty</span>
-                                    </div>
-                                </div>
-                                <div
-                                    class="w-5 h-5 rounded-full flex items-center justify-center bg-surface-container text-transparent group-has-[:checked]:bg-primary-container group-has-[:checked]:text-on-primary">
-                                    <span class="material-symbols-outlined text-[14px]">check</span>
-                                </div>
+                            <div class="text-left">
+                                <p class="font-title-md text-title-md font-semibold text-on-surface leading-tight">
+                                    Student</p>
+                                <span
+                                    class="font-label-sm text-label-sm font-medium text-on-surface-variant group-has-[:checked]:text-primary">Project
+                                    Member</span>
                             </div>
-                            <p class="font-body-sm text-body-sm text-on-surface-variant text-left leading-snug">
-                                Supervise projects, see progress &amp; give feedback with marks.
-                            </p>
-                        </label>
-
-                    </div>
-                </div>
-
-                <!-- ---------- Full name ---------- -->
-                <div class="flex flex-col gap-1">
-                    <label class="font-label-md text-label-md text-on-surface" for="fullName">Full Name</label>
-                    <div class="relative flex items-center">
-                        <span
-                            class="material-symbols-outlined absolute left-3.5 text-on-surface-variant text-[20px] pointer-events-none">badge</span>
-                        <input id="fullName" name="full_name" type="text" required maxlength="150"
-                            placeholder="Alex Morgan"
-                            class="w-full bg-surface-container-low text-on-surface font-body-sm text-body-sm pl-11 pr-4 py-2.5 rounded-xl focus:outline-none focus:bg-surface-container-lowest focus:shadow-md transition-all placeholder:text-outline" />
-                    </div>
-                </div>
-
-                <!-- ---------- Email ---------- -->
-                <div class="flex flex-col gap-1">
-                    <label class="font-label-md text-label-md text-on-surface" for="email">Email</label>
-                    <div class="relative flex items-center">
-                        <span
-                            class="material-symbols-outlined absolute left-3.5 text-on-surface-variant text-[20px] pointer-events-none">mail</span>
-                        <input id="email" name="email" type="email" required placeholder="student@university.edu"
-                            class="w-full bg-surface-container-low text-on-surface font-body-sm text-body-sm pl-11 pr-4 py-2.5 rounded-xl focus:outline-none focus:bg-surface-container-lowest focus:shadow-md transition-all placeholder:text-outline" />
-                    </div>
-                </div>
-
-                <!-- ---------- Password + Confirm ---------- -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
-                    <div class="flex flex-col gap-1">
-                        <label class="font-label-md text-label-md text-on-surface" for="password">Password</label>
-                        <div class="relative flex items-center">
-                            <span
-                                class="material-symbols-outlined absolute left-3.5 text-on-surface-variant text-[20px] pointer-events-none">lock</span>
-                            <input id="password" name="password1" type="password" required minlength="6"
-                                placeholder="••••••••••••"
-                                class="w-full bg-surface-container-low text-on-surface font-body-sm text-body-sm pl-11 pr-4 py-2.5 rounded-xl focus:outline-none focus:bg-surface-container-lowest focus:shadow-md transition-all placeholder:text-outline" />
+                        </div>
+                        <div
+                            class="w-5 h-5 rounded-full flex items-center justify-center bg-surface-container text-transparent group-has-[:checked]:bg-primary-container group-has-[:checked]:text-on-primary">
+                            <span class="material-symbols-outlined text-[14px]">check</span>
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1">
-                        <label class="font-label-md text-label-md text-on-surface" for="confirmPassword">Confirm
-                            Password</label>
-                        <div class="relative flex items-center">
-                            <span
-                                class="material-symbols-outlined absolute left-3.5 text-on-surface-variant text-[20px] pointer-events-none">lock_reset</span>
-                            <input id="confirmPassword" name="password2" type="password" required minlength="6"
-                                placeholder="••••••••••••"
-                                class="w-full bg-surface-container-low text-on-surface font-body-sm text-body-sm pl-11 pr-4 py-2.5 rounded-xl focus:outline-none focus:bg-surface-container-lowest focus:shadow-md transition-all placeholder:text-outline" />
+                    <p class="font-body-sm text-body-sm text-on-surface-variant text-left leading-snug">
+                        Create projects, manage tasks, collaborate with peers &amp; track progress.
+                    </p>
+                </label>
+
+                <!-- Teacher card -->
+                <label
+                    class="group relative flex flex-col p-3.5 rounded-xl cursor-pointer transition-all duration-200 shadow-sm text-on-surface bg-surface-container-lowest opacity-90 hover:opacity-100 has-[:checked]:bg-surface-container-low has-[:checked]:opacity-100">
+                    <input class="sr-only" type="radio" name="role" value="teacher" {% if form.role=='teacher'
+                        %}checked{% endif %} />
+                    <div class="flex items-start justify-between mb-1.5">
+                        <div class="flex items-center gap-2">
+                            <div
+                                class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors bg-surface-container-highest text-on-surface-variant group-has-[:checked]:bg-primary-container group-has-[:checked]:text-on-primary">
+                                <span class="material-symbols-outlined text-[20px]">co_present</span>
+                            </div>
+                            <div class="text-left">
+                                <p class="font-title-md text-title-md font-semibold text-on-surface leading-tight">
+                                    Teacher / Advisor</p>
+                                <span
+                                    class="font-label-sm text-label-sm font-medium text-on-surface-variant group-has-[:checked]:text-primary">Faculty</span>
+                            </div>
+                        </div>
+                        <div
+                            class="w-5 h-5 rounded-full flex items-center justify-center bg-surface-container text-transparent group-has-[:checked]:bg-primary-container group-has-[:checked]:text-on-primary">
+                            <span class="material-symbols-outlined text-[14px]">check</span>
                         </div>
                     </div>
-                </div>
-                <p class="font-label-sm text-label-sm text-on-surface-variant -mt-2">Use at least 6 characters.</p>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant text-left leading-snug">
+                        Supervise projects, see progress &amp; give feedback with marks.
+                    </p>
+                </label>
 
-                <!-- Submit -->
-                <button type="submit"
-                    class="w-full mt-2 bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 group">
-                    <span>Create Account</span>
+            </div>
+        </div>
+
+        <!-- ---------- Full name ---------- -->
+        <div class="flex flex-col gap-1">
+            <label class="font-label-md text-label-md text-on-surface" for="fullName">Full Name</label>
+            <div class="relative flex items-center">
+                <span
+                    class="material-symbols-outlined absolute left-3.5 text-on-surface-variant text-[20px] pointer-events-none">badge</span>
+                <input id="fullName" name="full_name" type="text" required maxlength="150" value="{{ form.full_name }}"
+                    placeholder="Alex Morgan"
+                    class="w-full bg-surface-container-low text-on-surface font-body-sm text-body-sm pl-11 pr-4 py-2.5 rounded-xl focus:outline-none focus:bg-surface-container-lowest focus:shadow-md transition-all placeholder:text-outline" />
+            </div>
+        </div>
+
+        <!-- ---------- Email ---------- -->
+        <div class="flex flex-col gap-1">
+            <label class="font-label-md text-label-md text-on-surface" for="email">Email</label>
+            <div class="relative flex items-center">
+                <span
+                    class="material-symbols-outlined absolute left-3.5 text-on-surface-variant text-[20px] pointer-events-none">mail</span>
+                <input id="email" name="email" type="email" required value="{{ form.email }}"
+                    placeholder="student@university.edu"
+                    class="w-full bg-surface-container-low text-on-surface font-body-sm text-body-sm pl-11 pr-4 py-2.5 rounded-xl focus:outline-none focus:bg-surface-container-lowest focus:shadow-md transition-all placeholder:text-outline" />
+            </div>
+        </div>
+
+        <!-- ---------- Password + Confirm ---------- -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+            <div class="flex flex-col gap-1">
+                <label class="font-label-md text-label-md text-on-surface" for="password">Password</label>
+                <div class="relative flex items-center">
                     <span
-                        class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                </button>
-            </form>
-
-            <!-- Login link -->
-            <div class="relative mt-space-lg flex flex-col items-center text-center">
-                <p class="font-body-sm text-body-sm text-on-surface-variant">
-                    Already have an account?
-                    <a class="text-primary font-semibold hover:underline ml-1" href="login.html">Sign in</a>
-                </p>
+                        class="material-symbols-outlined absolute left-3.5 text-on-surface-variant text-[20px] pointer-events-none">lock</span>
+                    <input id="password" name="password1" type="password" required minlength="6"
+                        placeholder="••••••••••••"
+                        class="w-full bg-surface-container-low text-on-surface font-body-sm text-body-sm pl-11 pr-4 py-2.5 rounded-xl focus:outline-none focus:bg-surface-container-lowest focus:shadow-md transition-all placeholder:text-outline" />
+                </div>
+            </div>
+            <div class="flex flex-col gap-1">
+                <label class="font-label-md text-label-md text-on-surface" for="confirmPassword">Confirm
+                    Password</label>
+                <div class="relative flex items-center">
+                    <span
+                        class="material-symbols-outlined absolute left-3.5 text-on-surface-variant text-[20px] pointer-events-none">lock_reset</span>
+                    <input id="confirmPassword" name="password2" type="password" required minlength="6"
+                        placeholder="••••••••••••"
+                        class="w-full bg-surface-container-low text-on-surface font-body-sm text-body-sm pl-11 pr-4 py-2.5 rounded-xl focus:outline-none focus:bg-surface-container-lowest focus:shadow-md transition-all placeholder:text-outline" />
+                </div>
             </div>
         </div>
-    </main>
+        <p class="font-label-sm text-label-sm text-on-surface-variant -mt-2">Use at least 6 characters.</p>
 
-    <!-- Footer -->
-    <footer class="w-full flex-shrink-0">
-        <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin py-space-md text-center sm:text-left">
-            <p class="font-body-sm text-body-sm text-on-surface-variant">© 2026 ProjectTrack. All rights reserved.</p>
-        </div>
-    </footer>
+        <!-- Submit -->
+        <button type="submit"
+            class="w-full mt-2 bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 group">
+            <span>Create Account</span>
+            <span
+                class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        </button>
+    </form>
 
-</body>
-
-</html>
+    <!-- Login link -->
+    <div class="relative mt-space-lg flex flex-col items-center text-center">
+        <p class="font-body-sm text-body-sm text-on-surface-variant">
+            Already have an account?
+            <a class="text-primary font-semibold hover:underline ml-1" href="/login">Sign in</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
