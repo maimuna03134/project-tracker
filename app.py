@@ -2,11 +2,13 @@
 # app.py  -  amader Flask app (shob page er route ekhane)
 # Chalate:  python app.py
 # ============================================================
+import os
 from datetime import date
 from functools import wraps
 
-from flask import Flask, render_template, request, redirect, session, flash, abort
+from flask import Flask, render_template, request, redirect, session, flash, abort, send_file
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 
 from db import fetch_all, fetch_one, execute
 import helpers
@@ -14,10 +16,17 @@ import helpers
 app = Flask(__name__)
 app.secret_key = 'ei-ta-pore-bodle-nio'      # session (login) er jonno lage
 
+# Upload kora file egulo "uploads" folder e jabe (nijei toiri hobe). Maximum 10 MB.
+UPLOAD_FOLDER = os.path.join(app.root_path, 'uploads')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
+BLOCKED_EXTENSIONS = ('exe', 'bat', 'cmd', 'msi', 'com', 'scr', 'vbs')
+
 # HTML e helper function use korar jonno:  {{ name|initials }}
 app.jinja_env.filters['initials'] = helpers.initials
 app.jinja_env.filters['first_name'] = helpers.first_name
 app.jinja_env.filters['avatar'] = helpers.avatar
+app.jinja_env.filters['time_ago'] = helpers.time_ago
 
 
 # ------------------------------------------------------------
