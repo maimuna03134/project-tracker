@@ -300,8 +300,8 @@ def is_member(user, project_id):
 def project_new():
     user = current_user()
     if user['role'] != 'student':
-        flash('Shudhu student project banate pare.', 'error')
-        return redirect('/projects')
+        flash('Project toiri hoyeche.', 'success')
+        return redirect('/projects/%d' % project_id)
 
     # member hishebe jader add kora jabe (nijeke chara baki student)
     students = fetch_all(
@@ -378,8 +378,8 @@ def task_new(project_id):
         form['due_date'] = request.form['due_date']
 
         if not form['title']:
-            error = 'Task title dite hobe.'
-        else:
+                    error = check_task_form(form, members)
+        if not error:
             # khali hole NULL (kichu na) save hobe
             assigned_to = int(form['assigned_to']) if form['assigned_to'] else None
             due_date = form['due_date'] or None
@@ -391,10 +391,389 @@ def task_new(project_id):
                  form['status'], due_date, assigned_to),
             )
             flash('Task toiri hoyeche.', 'success')
-            return redirect('/projects')
+            return redirect('/projects/%d#tasks' % project_id)
 
     return render_template('task_form.html', form=form, members=members, project=project,
                            error=error, editing=False)
+
+# ------------------------------------------------------------
+#  Step 4: Project Details page
+# ------------------------------------------------------------
+
+# Task form e vul ache kina dekhi (thik hole None return kore)
+def check_task_form(form, members):
+    if not form['title']:
+        return 'Task title dite hobe.'
+    if form['status'] not in helpers.STATUS_LABELS or form['priority'] not in helpers.PRIORITY_LABELS:
+        return 'Status ba priority thik nai.'
+    if form['assigned_to'] and form['assigned_to'] not in [str(m['id']) for m in members]:
+        return 'Ei member ei project e nai.'
+    return None
+
+
+# Kaj korar permission: shudhu student (je ei project er member)
+def get_project_for_work(user, project_id):
+    project = get_project_or_404(user, project_id)
+    if user['role'] != 'student':
+        abort(403)
+    return project
+
+
+# Task ta ana + user ei project dekhte pare kina check
+def get_task_or_404(user, task_id):
+    task = fetch_one("SELECT * FROM tasks WHERE id = %s", (task_id,))
+    if task is None:
+        abort(404)
+    get_project_or_404(user, task['project_id'])
+    return task
+
+
+# Upload kora file ta disk e kothay ache (id_naam.ext)
+def attachment_path(att):
+    safe_name = secure_filename(att['file_name']) or 'file'
+    return os.path.join(UPLOAD_FOLDER, '%d_%s' % (att['id'], safe_name))
+
+
+@app.route('/projects/<int:project_id>')
+@login_required
+def project_detail(project_id):
+    user = current_user()
+    project = add_project_info(get_project_or_404(user, project_id))
+    project['lead'] = fetch_one("SELECT id, name, email FROM users WHERE id = %s", (project['created_by'],))
+
+    # Task gulo 3 column e bhag kore (To Do / In Progress / Done)
+    rows = fetch_all(
+        "SELECT t.*, u.name AS assignee_name FROM tasks t LEFT JOIN users u ON u.id = t.assigned_to "
+        "WHERE t.project_id = %s ORDER BY t.due_date IS NULL, t.due_date, t.id",
+        (project_id,),
+    )
+    columns = {'todo': [], 'doing': [], 'done': []}
+    for row in rows:
+        columns[row['status']].append(add_task_info(row))
+
+    comments = fetch_all(
+        "SELECT c.*, u.name, p.role FROM comments c JOIN users u ON u.id = c.user_id "
+        "JOIN profiles p ON p.user_id = u.id WHERE c.project_id = %s ORDER BY c.created_at DESC, c.id DESC",
+        (project_id,),
+    )
+
+    attachments = fetch_all(
+        "SELECT a.*, u.name AS uploader FROM attachments a JOIN users u ON u.id = a.uploaded_by "
+        "WHERE a.project_id = %s ORDER BY a.uploaded_at DESC, a.id DESC",
+        (project_id,),
+    )
+    for a in attachments:
+        a['icon'] = helpers.file_icon(a['file_name'])
+        a['size'] = helpers.file_size(attachment_path(a))
+        a['can_delete'] = user['role'] == 'student' and user['id'] in (a['uploaded_by'], project['created_by'])
+
+    feedbacks = fetch_all(
+        "SELECT f.*, u.name AS teacher_name FROM feedbacks f JOIN users u ON u.id = f.teacher_id "
+        "WHERE f.project_id = %s ORDER BY f.created_at DESC, f.id DESC",
+        (project_id,),
+    )
+
+    return render_template(
+        'project_detail.html',
+        project=project,
+        todo_tasks=columns['todo'],
+        doing_tasks=columns['doing'],
+        done_tasks=columns['done'],
+        comments=comments,
+        attachments=attachments,
+        feedbacks=feedbacks,
+        can_work=user['role'] == 'student',                                   # student member
+        is_owner=user['role'] == 'student' and user['id'] == project['created_by'],
+        status_choices=helpers.STATUS_LABELS.items(),
+    )
+
+
+# ------------------------------------------------------------
+#  Project edit / delete
+# ------------------------------------------------------------
+
+@app.route('/projects/<int:project_id>/edit', methods=['GET', 'POST'])
+@login_required
+def project_edit(project_id):
+    user = current_user()
+    project = get_project_for_work(user, project_id)
+    if project['created_by'] != user['id']:          # shudhu je banaise
+        abort(403)
+
+    error = None
+    form = {'title': project['title'], 'description': project['description'],
+            'deadline': project['deadline'].isoformat(), 'members': []}
+
+    if request.method == 'POST':
+        form['title'] = request.form['title'].strip()
+        form['description'] = request.form['description'].strip()
+        form['deadline'] = request.form['deadline']
+
+        if not form['title'] or not form['description'] or not form['deadline']:
+            error = 'Title, description ar deadline dite hobe.'
+        else:
+            execute(
+                "UPDATE projects SET title = %s, description = %s, deadline = %s WHERE id = %s",
+                (form['title'], form['description'], form['deadline'], project_id),
+            )
+            flash('Project update hoyeche.', 'success')
+            return redirect('/projects/%d' % project_id)
+
+    return render_template('project_form.html', form=form, students=[], error=error,
+                           editing=True, project=project)
+
+
+@app.route('/projects/<int:project_id>/delete', methods=['GET', 'POST'])
+@login_required
+def project_delete(project_id):
+    user = current_user()
+    project = get_project_for_work(user, project_id)
+    if project['created_by'] != user['id']:
+        abort(403)
+
+    if request.method == 'POST':
+        execute("DELETE FROM projects WHERE id = %s", (project_id,))   # task, comment shob sathe muche jay
+        flash('Project delete hoyeche.', 'success')
+        return redirect('/projects')
+
+    # GET: "Nishchit?" page dekhai
+    return render_template(
+        'confirm_delete.html',
+        heading='Delete project?',
+        message='"%s" project ta, tar shob task, comment ar file shompurno muche jabe. Eta ar ferot ana jabe na.' % project['title'],
+        action='/projects/%d/delete' % project_id,
+        back='/projects/%d' % project_id,
+    )
+
+
+# ------------------------------------------------------------
+#  Member add / remove
+# ------------------------------------------------------------
+
+@app.route('/projects/<int:project_id>/members/add', methods=['POST'])
+@login_required
+def member_add(project_id):
+    user = current_user()
+    get_project_for_work(user, project_id)
+    email = request.form['email'].strip()
+
+    student = fetch_one(
+        "SELECT u.id, u.name FROM users u JOIN profiles p ON p.user_id = u.id "
+        "WHERE u.email = %s AND p.role = 'student'",
+        (email,),
+    )
+    if student is None:
+        flash('Ei email e kono student account nai.', 'error')
+    elif is_member(student, project_id):
+        flash('%s age thekei member.' % student['name'], 'error')
+    else:
+        execute("INSERT INTO project_members (project_id, user_id) VALUES (%s, %s)", (project_id, student['id']))
+        flash('%s ke member kora hoyeche.' % student['name'], 'success')
+    return redirect('/projects/%d' % project_id)
+
+
+@app.route('/projects/<int:project_id>/members/<int:member_id>/remove', methods=['POST'])
+@login_required
+def member_remove(project_id, member_id):
+    user = current_user()
+    project = get_project_for_work(user, project_id)
+    if project['created_by'] != user['id']:          # shudhu project lead remove korte pare
+        abort(403)
+    if member_id == project['created_by']:
+        flash('Project lead ke remove kora jay na.', 'error')
+    else:
+        execute("DELETE FROM project_members WHERE project_id = %s AND user_id = %s", (project_id, member_id))
+        # oi member er task gulo "Unassigned" hoye jabe
+        execute("UPDATE tasks SET assigned_to = NULL WHERE project_id = %s AND assigned_to = %s",
+                (project_id, member_id))
+        flash('Member remove kora hoyeche.', 'success')
+    return redirect('/projects/%d' % project_id)
+
+
+# ------------------------------------------------------------
+#  Task edit / delete / status change
+# ------------------------------------------------------------
+
+@app.route('/tasks/<int:task_id>/edit', methods=['GET', 'POST'])
+@login_required
+def task_edit(task_id):
+    user = current_user()
+    task = get_task_or_404(user, task_id)
+    project = get_project_for_work(user, task['project_id'])
+
+    members = fetch_all(
+        "SELECT u.id, u.name, u.email FROM project_members m JOIN users u ON u.id = m.user_id "
+        "WHERE m.project_id = %s ORDER BY u.name",
+        (project['id'],),
+    )
+
+    error = None
+    form = {
+        'title': task['title'], 'description': task['description'] or '',
+        'assigned_to': str(task['assigned_to']) if task['assigned_to'] else '',
+        'status': task['status'], 'priority': task['priority'],
+        'due_date': task['due_date'].isoformat() if task['due_date'] else '',
+    }
+
+    if request.method == 'POST':
+        form['title'] = request.form['title'].strip()
+        form['description'] = request.form['description'].strip()
+        form['assigned_to'] = request.form['assigned_to']
+        form['status'] = request.form['status']
+        form['priority'] = request.form['priority']
+        form['due_date'] = request.form['due_date']
+
+        error = check_task_form(form, members)
+        if not error:
+            execute(
+                "UPDATE tasks SET title = %s, description = %s, priority = %s, status = %s, "
+                "due_date = %s, assigned_to = %s WHERE id = %s",
+                (form['title'], form['description'], form['priority'], form['status'],
+                 form['due_date'] or None,
+                 int(form['assigned_to']) if form['assigned_to'] else None,
+                 task_id),
+            )
+            flash('Task update hoyeche.', 'success')
+            return redirect('/projects/%d#tasks' % project['id'])
+
+    return render_template('task_form.html', form=form, members=members, project=project,
+                           error=error, editing=True)
+
+
+@app.route('/tasks/<int:task_id>/delete', methods=['GET', 'POST'])
+@login_required
+def task_delete(task_id):
+    user = current_user()
+    task = get_task_or_404(user, task_id)
+    get_project_for_work(user, task['project_id'])
+    back = '/projects/%d#tasks' % task['project_id']
+
+    if request.method == 'POST':
+        execute("DELETE FROM tasks WHERE id = %s", (task_id,))
+        flash('Task delete hoyeche.', 'success')
+        return redirect(back)
+
+    return render_template(
+        'confirm_delete.html',
+        heading='Delete task?',
+        message='"%s" task ta muche jabe.' % task['title'],
+        action='/tasks/%d/delete' % task_id,
+        back=back,
+    )
+
+
+@app.route('/tasks/<int:task_id>/status', methods=['POST'])
+@login_required
+def task_status(task_id):
+    user = current_user()
+    task = get_task_or_404(user, task_id)
+    get_project_for_work(user, task['project_id'])
+
+    status = request.form.get('status', '')
+    if status in helpers.STATUS_LABELS:
+        execute("UPDATE tasks SET status = %s WHERE id = %s", (status, task_id))
+    return redirect('/projects/%d#tasks' % task['project_id'])
+
+
+# ------------------------------------------------------------
+#  Comment
+# ------------------------------------------------------------
+
+@app.route('/projects/<int:project_id>/comments', methods=['POST'])
+@login_required
+def comment_add(project_id):
+    user = current_user()
+    get_project_or_404(user, project_id)             # student (member) ar teacher duijon-i comment korte pare
+    text = request.form['text'].strip()
+
+    if not text:
+        flash('Comment khali rakha jay na.', 'error')
+    else:
+        execute("INSERT INTO comments (project_id, user_id, text) VALUES (%s, %s, %s)",
+                (project_id, user['id'], text))
+    return redirect('/projects/%d#discussion' % project_id)
+
+
+# ------------------------------------------------------------
+#  File upload / download / delete
+# ------------------------------------------------------------
+
+@app.route('/projects/<int:project_id>/files', methods=['POST'])
+@login_required
+def file_upload(project_id):
+    user = current_user()
+    get_project_for_work(user, project_id)
+    back = '/projects/%d#files' % project_id
+
+    file = request.files.get('file')
+    if file is None or file.filename == '':
+        flash('Age ekta file select koro.', 'error')
+        return redirect(back)
+
+    original_name = os.path.basename(file.filename.replace('\\', '/'))[:255]
+    extension = original_name.rsplit('.', 1)[-1].lower() if '.' in original_name else ''
+    if extension in BLOCKED_EXTENSIONS:
+        flash('Ei dhoroner file upload kora jabe na.', 'error')
+        return redirect(back)
+
+    # age database e naam rakhi (id pai), tarpor file ta disk e save
+    att_id = execute(
+        "INSERT INTO attachments (project_id, file_name, uploaded_by) VALUES (%s, %s, %s)",
+        (project_id, original_name, user['id']),
+    )
+    file.save(attachment_path({'id': att_id, 'file_name': original_name}))
+    flash('File upload hoyeche.', 'success')
+    return redirect(back)
+
+
+@app.route('/files/<int:file_id>')
+@login_required
+def file_download(file_id):
+    user = current_user()
+    att = fetch_one("SELECT * FROM attachments WHERE id = %s", (file_id,))
+    if att is None:
+        abort(404)
+    get_project_or_404(user, att['project_id'])
+    path = attachment_path(att)
+    if not os.path.exists(path):
+        abort(404)
+    return send_file(path, as_attachment=True, download_name=att['file_name'])
+
+
+@app.route('/files/<int:file_id>/delete', methods=['GET', 'POST'])
+@login_required
+def file_delete(file_id):
+    user = current_user()
+    att = fetch_one("SELECT * FROM attachments WHERE id = %s", (file_id,))
+    if att is None:
+        abort(404)
+    project = get_project_for_work(user, att['project_id'])
+    if user['id'] not in (att['uploaded_by'], project['created_by']):    # uploader ba project lead
+        abort(403)
+    back = '/projects/%d#files' % project['id']
+
+    if request.method == 'POST':
+        execute("DELETE FROM attachments WHERE id = %s", (file_id,))
+        path = attachment_path(att)
+        if os.path.exists(path):
+            os.remove(path)
+        flash('File delete hoyeche.', 'success')
+        return redirect(back)
+
+    return render_template(
+        'confirm_delete.html',
+        heading='Delete file?',
+        message='"%s" file ta muche jabe.' % att['file_name'],
+        action='/files/%d/delete' % file_id,
+        back=back,
+    )
+
+
+# File 10 MB er beshi boro hole
+@app.errorhandler(413)
+def file_too_large(error):
+    flash('File ta 10 MB er beshi boro. Chhoto file dao.', 'error')
+    return redirect(request.referrer or '/projects')
 
 
 # ------------------------------------------------------------
