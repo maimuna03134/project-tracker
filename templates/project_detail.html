@@ -1,0 +1,450 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.title }}{% endblock %}
+
+{% block content %}
+{# Variables (app.py theke): project, todo_tasks, doing_tasks, done_tasks, comments, attachments, feedbacks, can_work,
+is_owner, status_choices #}
+{% set status = project.status %}
+{% set tone = project.tone %}
+{% set members_count = project.members|length %}
+{% set tasks_left = project.total - project.done %}
+<div
+    class="w-full max-w-[1440px] mx-auto px-gutter-mobile md:px-gutter py-space-lg md:py-space-xl flex flex-col gap-space-xl">
+
+    {# ================= 1. Breadcrumb + buttons ================= #}
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+        <div class="flex flex-wrap items-center gap-space-xs md:gap-space-sm min-w-0">
+            <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1"
+                href="/projects">
+                <span class="material-symbols-outlined text-[18px]">folder_open</span>Projects
+            </a>
+            <span class="text-outline-variant font-body-sm text-body-sm select-none">/</span>
+            <span
+                class="font-label-md text-label-md text-on-surface font-semibold truncate max-w-[260px] sm:max-w-md">{{
+                project.title }}</span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full font-label-sm text-label-sm ml-1
+        {% if status == 'Completed' %}bg-tertiary-fixed text-on-tertiary-fixed
+        {% elif status == 'Overdue' %}bg-error-container text-on-error-container
+        {% else %}bg-primary-fixed text-primary{% endif %}">
+                <span
+                    class="w-2 h-2 rounded-full animate-pulse {% if status == 'Completed' %}bg-tertiary{% elif status == 'Overdue' %}bg-error{% else %}bg-primary{% endif %}"></span>
+                {{ status }}
+            </span>
+        </div>
+
+        <div class="flex items-center gap-space-sm self-start md:self-auto shrink-0">
+            {% if is_owner %}
+            <a href="/projects/{{ project.id }}/edit"
+                class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-low font-label-md text-label-md shadow-sm transition-all">
+                <span class="material-symbols-outlined text-[18px] text-on-surface-variant">edit</span><span>Edit</span>
+            </a>
+            <a href="/projects/{{ project.id }}/delete"
+                class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-surface-container-lowest text-error hover:bg-error-container font-label-md text-label-md shadow-sm transition-all">
+                <span class="material-symbols-outlined text-[18px]">delete</span><span>Delete</span>
+            </a>
+            {% endif %}
+            {% if can_work %}
+            <a href="/projects/{{ project.id }}/tasks/new"
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-on-primary font-label-md text-label-md shadow-md hover:bg-primary-container hover:shadow-lg transition-all active:scale-[0.98]">
+                <span class="material-symbols-outlined text-[20px]">add_task</span><span>Add Task</span>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    {# ================= 2. Project overview ================= #}
+    <section
+        class="w-full bg-surface-container-lowest rounded-2xl p-space-lg md:p-space-xl shadow-sm flex flex-col gap-space-lg relative">
+        <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
+            <div class="absolute -right-24 -top-24 w-80 h-80 rounded-full bg-primary/5 blur-3xl"></div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-space-lg relative z-10">
+            <div class="flex flex-col gap-space-xs max-w-3xl">
+                <span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider">Created {{
+                    project.created_at.strftime('%b %d, %Y') }}</span>
+                <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mt-1">{{ project.title }}
+                </h1>
+                <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mt-1 whitespace-pre-line">{{
+                    project.description }}</p>
+            </div>
+
+            <div
+                class="bg-surface-container-low p-space-md rounded-xl flex items-center gap-space-md shrink-0 lg:max-w-xs shadow-sm">
+                <div
+                    class="w-12 h-12 rounded-xl {{ project.lead.id|avatar }} flex items-center justify-center font-title-md text-title-md font-bold shrink-0">
+                    {{ project.lead.name|initials }}</div>
+                <div class="flex flex-col min-w-0">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">Project Lead</span>
+                    <span class="font-title-md text-title-md text-on-surface truncate">{{ project.lead.name }}</span>
+                    <span class="font-label-sm text-label-sm text-primary truncate">{{ project.lead.email }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-space-md pt-space-md items-stretch relative z-10">
+            {# Progress #}
+            <div
+                class="md:col-span-6 bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-xs justify-center">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="font-label-md text-label-md text-on-surface font-semibold">Task Progress</span>
+                        <span class="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary font-semibold">{{
+                            project.done }} / {{ project.total }} Tasks</span>
+                    </div>
+                    <span class="font-title-md text-title-md text-primary font-bold">{{ project.progress }}%</span>
+                </div>
+                <div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden flex">
+                    <div class="h-full bg-gradient-to-r from-primary to-primary-container rounded-full transition-all duration-700"
+                       </div> style="`width: ${ project.progress }%`"></div>
+                </div>
+                <div
+                    class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm pt-0.5">
+                    <span>{{ tasks_left }} task{{ 's' if tasks_left != 1 }} remaining</span>
+                    <span>{{ members_count }} member{{ 's' if members_count != 1 }}</span>
+                </div>
+            </div>
+
+            {# Deadline #}
+            <div class="md:col-span-3 bg-surface-container-low p-space-md rounded-xl flex items-center gap-space-sm">
+                <div
+                    class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 {% if tone == 'error' %}bg-error-container text-error{% elif tone == 'done' %}bg-tertiary-fixed text-tertiary{% else %}bg-surface-container-high text-primary{% endif %}">
+                    <span class="material-symbols-outlined text-[22px]">{% if tone == 'done' %}task_alt{% else
+                        %}calendar_clock{% endif %}</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">Deadline</span>
+                    <span class="font-label-md text-label-md text-on-surface font-semibold">{{
+                        project.deadline.strftime('%b %d, %Y') }}</span>
+                    <span
+                        class="font-label-sm text-label-sm font-medium {% if tone == 'error' %}text-error{% elif tone == 'done' %}text-tertiary{% else %}text-on-surface-variant{% endif %}">{{
+                        project.deadline_text }}</span>
+                </div>
+            </div>
+
+            {# Team #}
+            <div
+                class="md:col-span-3 bg-surface-container-low p-space-md rounded-xl flex flex-col gap-1.5 justify-center">
+                <div class="flex items-center justify-between">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">Team ({{ members_count }})</span>
+                </div>
+                <div class="flex items-center gap-1.5 flex-wrap pt-0.5">
+                    <div class="flex -space-x-2">
+                        {% for m in project.members[:5] %}
+                        <div class="inline-flex items-center justify-center w-8 h-8 rounded-full {{ m.id|avatar }} ring-2 ring-surface-container-lowest font-label-sm text-label-sm font-semibold"
+                            title="{{ m.name }}">{{ m.name|initials }}</div>
+                        {% endfor %}
+                        {% if members_count > 5 %}
+                        <div
+                            class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-surface-variant text-on-surface ring-2 ring-surface-container-lowest font-label-sm text-label-sm font-semibold">
+                            +{{ members_count - 5 }}</div>
+                        {% endif %}
+                    </div>
+
+                    {# Member add / remove. <details> tag: click korle khule, JavaScript lage na #}
+                        {% if can_work %}
+                        <details class="relative">
+                            <summary
+                                class="list-none cursor-pointer inline-flex items-center justify-center px-2 py-1 h-8 rounded-lg bg-surface-container-highest hover:bg-surface-variant text-on-surface font-label-sm text-label-sm transition-colors gap-1 [&::-webkit-details-marker]:hidden">
+                                <span class="material-symbols-outlined text-[16px]">person_add</span><span>Invite</span>
+                            </summary>
+                            <div
+                                class="absolute right-0 top-full mt-2 w-72 bg-surface-container-lowest rounded-xl shadow-[0_10px_25px_-5px_rgba(15,23,42,0.15)] p-space-md z-30 flex flex-col gap-space-sm">
+                                <form action="/projects/{{ project.id }}/members/add" method="post"
+                                    class="flex flex-col gap-space-xs">
+                                    <label class="font-label-sm text-label-sm text-on-surface-variant"
+                                        for="invite-email">Add a student by email</label>
+                                    <div class="flex gap-2">
+                                        <input id="invite-email" type="email" name="email" required
+                                            placeholder="student@university.edu"
+                                            class="flex-1 min-w-0 bg-surface-container-low text-on-surface placeholder:text-outline font-body-sm text-body-sm rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-primary-container/30" />
+                                        <button type="submit"
+                                            class="px-3 py-2 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md">Add</button>
+                                    </div>
+                                </form>
+                                <div
+                                    class="border-t border-surface-container-high pt-space-sm flex flex-col gap-1 max-h-48 overflow-y-auto">
+                                    {% for m in project.members %}
+                                    <div class="flex items-center justify-between gap-2">
+                                        <div class="flex items-center gap-2 min-w-0">
+                                            <span
+                                                class="w-6 h-6 rounded-full {{ m.id|avatar }} text-[10px] font-bold flex items-center justify-center shrink-0">{{
+                                                m.name|initials }}</span>
+                                            <span class="font-label-md text-label-md text-on-surface truncate">{{ m.name
+                                                }}{% if m.id == project.created_by %} <span
+                                                    class="text-on-surface-variant font-normal">(Lead)</span>{% endif
+                                                %}</span>
+                                        </div>
+                                        {% if is_owner and m.id != project.created_by %}
+                                        <form action="/projects/{{ project.id }}/members/{{ m.id }}/remove"
+                                            method="post">
+                                            <button type="submit" class="text-on-surface-variant hover:text-error flex"
+                                                title="Remove member" aria-label="Remove member">
+                                                <span class="material-symbols-outlined text-[18px]">close</span>
+                                            </button>
+                                        </form>
+                                        {% endif %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </details>
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# ================= 3. Teacher er feedback (student ar teacher duijon-i dekhe) ================= #}
+    {% if feedbacks %}
+    <section class="flex flex-col gap-space-md">
+        <div class="flex items-center gap-space-xs">
+            <span class="material-symbols-outlined text-primary text-[22px]">history_edu</span>
+            <h3 class="font-headline-sm text-headline-sm text-on-surface">Teacher Feedback</h3>
+            <span
+                class="px-space-xs py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm font-semibold">{{
+                feedbacks|length }} Review{{ 's' if feedbacks|length != 1 }}</span>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
+            {% for f in feedbacks %}
+            <article
+                class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-md transition-all flex items-start justify-between gap-space-md">
+                <div class="flex items-start gap-space-md flex-1 min-w-0">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-surface-container text-primary flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-[20px]">assignment_turned_in</span>
+                    </div>
+                    <div class="flex flex-col flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center gap-space-sm mb-1">
+                            <span class="font-title-md text-title-md text-on-surface font-semibold">{{ f.teacher_name
+                                }}</span>
+                            <span class="text-on-surface-variant font-label-sm text-label-sm">&bull; {{
+                                f.created_at.strftime('%b %d, %Y') }}</span>
+                        </div>
+                        <p
+                            class="font-body-md text-body-md text-on-surface-variant leading-relaxed whitespace-pre-line">
+                            {{ f.text }}</p>
+                    </div>
+                </div>
+                {% if f.marks is not none %}
+                <div class="shrink-0 text-right">
+                    <span class="font-headline-sm text-headline-sm text-on-surface font-bold">{{ f.marks }}<span
+                            class="font-body-sm text-body-sm text-on-surface-variant font-normal">/100</span></span>
+                </div>
+                {% endif %}
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {# ================= 4. Task board (3 column) ================= #}
+    <section id="tasks" class="flex flex-col gap-space-md scroll-mt-24">
+        <div class="flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-primary text-[24px]">view_kanban</span>
+            <h2 class="font-headline-sm text-headline-sm text-on-surface">Tasks</h2>
+            <span
+                class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-semibold">{{
+                project.total }} total item{{ 's' if project.total != 1 }}</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg items-start">
+
+            {# ---- To Do ---- #}
+            <div class="bg-surface-container-low p-space-md rounded-2xl flex flex-col gap-space-md">
+                <div class="flex items-center justify-between pb-space-xs">
+                    <div class="flex items-center gap-space-xs">
+                        <span class="w-2.5 h-2.5 rounded-full bg-outline"></span>
+                        <span class="font-title-md text-title-md text-on-surface font-semibold">To Do</span>
+                        <span
+                            class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-semibold">{{
+                            todo_tasks|length }}</span>
+                    </div>
+                    {% if can_work %}<a href="/projects/{{ project.id }}/tasks/new?status=todo"
+                        aria-label="Add to To Do"
+                        class="w-7 h-7 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high flex items-center justify-center transition-colors"><span
+                            class="material-symbols-outlined text-[20px]">add</span></a>{% endif %}
+                </div>
+                <div class="flex flex-col gap-space-sm">
+                    {% for task in todo_tasks %}{% include 'components/task_card.html' %}{% else %}<p
+                        class="font-body-sm text-body-sm text-on-surface-variant text-center py-space-md">No tasks here
+                    </p>{% endfor %}
+                </div>
+            </div>
+
+            {# ---- In Progress ---- #}
+            <div class="bg-surface-container-low p-space-md rounded-2xl flex flex-col gap-space-md">
+                <div class="flex items-center justify-between pb-space-xs">
+                    <div class="flex items-center gap-space-xs">
+                        <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+                        <span class="font-title-md text-title-md text-on-surface font-semibold">In Progress</span>
+                        <span
+                            class="px-2 py-0.5 rounded-full bg-primary-fixed text-primary font-label-sm text-label-sm font-semibold">{{
+                            doing_tasks|length }}</span>
+                    </div>
+                    {% if can_work %}<a href="/projects/{{ project.id }}/tasks/new?status=doing"
+                        aria-label="Add to In Progress"
+                        class="w-7 h-7 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high flex items-center justify-center transition-colors"><span
+                            class="material-symbols-outlined text-[20px]">add</span></a>{% endif %}
+                </div>
+                <div class="flex flex-col gap-space-sm">
+                    {% for task in doing_tasks %}{% include 'components/task_card.html' %}{% else %}<p
+                        class="font-body-sm text-body-sm text-on-surface-variant text-center py-space-md">No tasks here
+                    </p>{% endfor %}
+                </div>
+            </div>
+
+            {# ---- Done ---- #}
+            <div class="bg-surface-container-low p-space-md rounded-2xl flex flex-col gap-space-md">
+                <div class="flex items-center justify-between pb-space-xs">
+                    <div class="flex items-center gap-space-xs">
+                        <span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+                        <span class="font-title-md text-title-md text-on-surface font-semibold">Done</span>
+                        <span
+                            class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-semibold">{{
+                            done_tasks|length }}</span>
+                    </div>
+                    {% if can_work %}<a href="/projects/{{ project.id }}/tasks/new?status=done" aria-label="Add to Done"
+                        class="w-7 h-7 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high flex items-center justify-center transition-colors"><span
+                            class="material-symbols-outlined text-[20px]">add</span></a>{% endif %}
+                </div>
+                <div class="flex flex-col gap-space-sm">
+                    {% for task in done_tasks %}{% include 'components/task_card.html' %}{% else %}<p
+                        class="font-body-sm text-body-sm text-on-surface-variant text-center py-space-md">No tasks here
+                    </p>{% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# ================= 5. Discussion + Files ================= #}
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+
+        {# ---- Discussion ---- #}
+        <div id="discussion"
+            class="lg:col-span-7 bg-surface-container-lowest p-space-lg md:p-space-xl rounded-2xl shadow-sm flex flex-col gap-space-lg scroll-mt-24">
+            <div class="flex items-center gap-space-sm">
+                <span class="material-symbols-outlined text-primary text-[24px]">forum</span>
+                <h2 class="font-title-md text-title-md text-on-surface font-semibold">Discussion</h2>
+                <span
+                    class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">{{
+                    comments|length }} message{{ 's' if comments|length != 1 }}</span>
+            </div>
+
+            <form action="/projects/{{ project.id }}/comments" method="post"
+                class="w-full bg-surface-container-low rounded-2xl p-space-sm focus-within:ring-2 focus-within:ring-primary/20 transition-all flex flex-col gap-2">
+                <textarea name="text" rows="3" required placeholder="Write a comment for your team..."
+                    class="w-full bg-transparent resize-none font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none px-2 pt-1"></textarea>
+                <div class="flex justify-end px-1">
+                    <button type="submit"
+                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container shadow-sm transition-all active:scale-95">
+                        <span>Post Comment</span><span class="material-symbols-outlined text-[18px]">send</span>
+                    </button>
+                </div>
+            </form>
+
+            <div class="flex flex-col gap-space-md">
+                {% for c in comments %}
+                <div class="flex gap-space-sm">
+                    <div
+                        class="w-9 h-9 rounded-xl {{ c.user_id|avatar }} flex items-center justify-center font-semibold text-xs shrink-0">
+                        {{ c.name|initials }}</div>
+                    <div class="flex flex-col gap-1 w-full min-w-0">
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="flex items-center gap-2 min-w-0">
+                                <span class="font-label-md text-label-md text-on-surface font-semibold truncate">{{
+                                    c.name }}</span>
+                                {% if c.role == 'teacher' %}
+                                <span
+                                    class="px-2 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-[11px]">Teacher</span>
+                                {% elif c.user_id == project.created_by %}
+                                <span
+                                    class="px-2 rounded-full bg-primary-fixed text-primary font-label-sm text-[11px]">Project
+                                    Lead</span>
+                                {% else %}
+                                <span
+                                    class="px-2 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px]">Member</span>
+                                {% endif %}
+                            </div>
+                            <span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">{{
+                                c.created_at|time_ago }}</span>
+                        </div>
+                        <div
+                            class="bg-surface-container-low p-space-md rounded-2xl rounded-tl-sm text-on-surface font-body-sm text-body-sm leading-relaxed whitespace-pre-line break-words">
+                            {{ c.text }}</div>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-center font-body-sm text-body-sm text-on-surface-variant py-space-md">Ekhono kono comment
+                    nai. Prothom comment tumi-i koro!</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        {# ---- Files ---- #}
+        <div id="files"
+            class="lg:col-span-5 bg-surface-container-lowest p-space-lg md:p-space-xl rounded-2xl shadow-sm flex flex-col gap-space-lg scroll-mt-24">
+            <div class="flex items-center gap-space-sm">
+                <span class="material-symbols-outlined text-primary text-[24px]">folder_zip</span>
+                <h2 class="font-title-md text-title-md text-on-surface font-semibold">Files</h2>
+                <span
+                    class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">{{
+                    attachments|length }} file{{ 's' if attachments|length != 1 }}</span>
+            </div>
+
+            {% if can_work %}
+            <form action="/projects/{{ project.id }}/files" method="post" enctype="multipart/form-data"
+                class="flex flex-col gap-space-sm">
+                <div
+                    class="w-full border-2 border-dashed border-outline-variant/50 bg-surface-container-low/50 rounded-2xl p-space-md flex flex-col gap-2">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[18px] text-primary">upload_file</span>PDF, ZIP,
+                        images, docs &mdash; up to 10 MB
+                    </span>
+                    <input type="file" name="file" required class="w-full font-body-sm text-body-sm text-on-surface">
+                </div>
+                <button type="submit"
+                    class="w-full px-space-lg py-2 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md transition-colors flex items-center justify-center gap-2"><span
+                        class="material-symbols-outlined text-[18px]">upload</span>Upload File</button>
+            </form>
+            {% endif %}
+
+            <div class="flex flex-col gap-space-sm">
+                {% for a in attachments %}
+                <div
+                    class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors flex items-center justify-between group">
+                    <div class="flex items-center gap-space-sm min-w-0">
+                        <div class="w-10 h-10 rounded-xl {{ a.icon[1] }} flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-[22px]">{{ a.icon[0] }}</span>
+                        </div>
+                        <div class="flex flex-col min-w-0">
+                            <span
+                                class="font-label-md text-label-md text-on-surface font-semibold truncate group-hover:text-primary transition-colors">{{
+                                a.file_name }}</span>
+                            <span class="font-label-sm text-label-sm text-on-surface-variant truncate">{% if a.size %}{{
+                                a.size }} &bull; {% endif %}{{ a.uploader }} &bull; {{ a.uploaded_at|time_ago }}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center shrink-0">
+                        <a href="/files/{{ a.id }}" aria-label="Download file"
+                            class="w-9 h-9 rounded-xl hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-colors">
+                            <span class="material-symbols-outlined text-[20px]">download</span>
+                        </a>
+                        {% if a.can_delete %}
+                        <a href="/files/{{ a.id }}/delete" aria-label="Delete file"
+                            class="w-9 h-9 rounded-xl hover:bg-error-container text-on-surface-variant hover:text-error flex items-center justify-center transition-colors">
+                            <span class="material-symbols-outlined text-[20px]">delete</span>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-center font-body-sm text-body-sm text-on-surface-variant py-space-md">Kono file upload
+                    hoy nai.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

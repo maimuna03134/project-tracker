@@ -2638,3 +2638,7 @@ video {
 .\[\&\:\:-webkit-details-marker\]\:hidden::-webkit-details-marker {
     display: none
 }
+
+.scroll-mt-24 {
+    scroll-margin-top: 6rem
+}

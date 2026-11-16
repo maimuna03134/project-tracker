@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ heading }}{% endblock %}
+
+{% block content %}
+{# "Nishchit?" page. Variables: heading, message, action (POST url), back (Cancel url) #}
+<div class="max-w-[1440px] w-full mx-auto px-gutter py-space-xl">
+    <div class="bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm text-center max-w-xl mx-auto mt-space-xl">
+        <div class="w-14 h-14 rounded-2xl bg-error-container text-error flex items-center justify-center mx-auto">
+            <span class="material-symbols-outlined text-[30px]">delete</span>
+        </div>
+        <h1 class="font-headline-md text-headline-md text-on-surface mt-space-md">{{ heading }}</h1>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-1">{{ message }}</p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-space-sm mt-space-lg">
+            <a href="{{ back }}"
+                class="w-full sm:w-auto px-space-lg py-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors text-center">Cancel</a>
+            <form action="{{ action }}" method="post" class="w-full sm:w-auto">
+                <button type="submit"
+                    class="w-full px-space-lg py-2.5 rounded-xl bg-error text-on-primary font-label-md text-label-md font-semibold transition-all shadow-sm hover:shadow-md">Yes,
+                    delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -81,7 +81,8 @@
                 </div>
             </div>
 
-            {# ---------- 4. Team members ---------- #}
+                {# ---------- 4. Team members (edit korar shomoy dekhabe na) ---------- #}
+                {% if not editing %}
             <div class="flex flex-col gap-space-sm">
                 <div class="flex items-center justify-between">
                     <label class="font-label-md text-label-md text-on-surface flex items-center gap-1.5">
@@ -115,7 +116,9 @@
                 </div>
             </div>
 
-            {# ---------- Buttons ---------- #}
+                {% endif %}
+                
+                {# ---------- Buttons ---------- #}
             <div class="pt-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md">
                 <a href="{% if editing %}/projects/{{ project.id }}{% else %}/dashboard{% endif %}"
                     class="order-2 sm:order-1 w-full sm:w-auto px-space-lg py-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors text-center">Cancel</a>

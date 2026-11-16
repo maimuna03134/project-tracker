@@ -1,0 +1,79 @@
+{# Kanban task card. Lage: task, can_work, status_choices (project_detail.html theke ashe) #}
+<div
+    class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col gap-space-sm group {% if task.priority == 'high' and task.status != 'done' %}ring-1 ring-primary/20{% endif %} {% if task.status == 'done' %}opacity-90 hover:opacity-100{% endif %}">
+
+    <div class="flex items-start justify-between gap-2">
+        {% if task.priority == 'high' %}
+        <span
+            class="px-2.5 py-0.5 rounded-full bg-error-container text-error font-label-sm text-label-sm font-semibold flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">flag</span> High Priority
+        </span>
+        {% elif task.priority == 'low' %}
+        <span
+            class="px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">Low</span>
+        {% else %}
+        <span
+            class="px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold">Medium</span>
+        {% endif %}
+
+        <div class="flex items-center gap-1">
+            {% if task.status == 'done' %}
+            <span class="material-symbols-outlined text-tertiary text-[18px]">check_circle</span>
+            {% endif %}
+            {% if can_work %}
+            <a href="/tasks/{{ task.id }}/edit" class="text-outline hover:text-primary flex" title="Edit task"
+                aria-label="Edit task">
+                <span class="material-symbols-outlined text-[18px]">edit</span>
+            </a>
+            <a href="/tasks/{{ task.id }}/delete" class="text-outline hover:text-error flex" title="Delete task"
+                aria-label="Delete task">
+                <span class="material-symbols-outlined text-[18px]">delete</span>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <h3
+        class="font-label-md text-label-md font-semibold group-hover:text-primary transition-colors {% if task.status == 'done' %}line-through text-on-surface-variant{% else %}text-on-surface{% endif %}">
+        {{ task.title }}</h3>
+    {% if task.description %}
+    <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">{{ task.description }}</p>
+    {% endif %}
+
+    <div class="pt-2 flex items-center justify-between">
+        <div
+            class="flex items-center gap-1.5 font-label-sm text-label-sm {% if task.overdue %}text-error font-semibold{% elif task.status == 'done' %}text-tertiary font-medium{% else %}text-on-surface-variant{% endif %}">
+            <span class="material-symbols-outlined text-[16px]">{% if task.status == 'done' %}task_alt{% elif
+                task.overdue %}schedule{% else %}event{% endif %}</span>
+            <span>{% if task.due_date %}{{ task.due_date.strftime('%b %d') }}{% else %}No due date{% endif %}</span>
+        </div>
+        <div class="flex items-center gap-2">
+            {% if task.assigned_to %}
+            <div class="w-6 h-6 rounded-full {{ task.assigned_to|avatar }} font-label-sm text-label-sm flex items-center justify-center font-semibold text-[10px]"
+                title="{{ task.assignee_name }}">{{ task.assignee_name|initials }}</div>
+            {% else %}
+            <div class="w-6 h-6 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center"
+                title="Unassigned">
+                <span class="material-symbols-outlined text-[14px]">person_off</span>
+            </div>
+            {% endif %}
+
+            <!-- Status bodlano: select kore ✓ button e click -->
+            {% if can_work %}
+            <form action="/tasks/{{ task.id }}/status" method="post" class="flex items-center gap-1">
+                <select name="status" aria-label="Change status"
+                    class="text-xs rounded-lg px-2 py-1 focus:outline-none cursor-pointer
+                  {% if task.status == 'doing' %}bg-primary/10 text-primary font-semibold{% elif task.status == 'done' %}bg-tertiary/10 text-tertiary font-semibold{% else %}bg-surface-container-low text-on-surface{% endif %}">
+                    {% for value, label in status_choices %}
+                    <option value="{{ value }}" {% if task.status==value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" aria-label="Save status"
+                    class="w-6 h-6 rounded-lg bg-primary-container hover:bg-primary text-on-primary flex items-center justify-center transition-colors">
+                    <span class="material-symbols-outlined text-[14px]">check</span>
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
