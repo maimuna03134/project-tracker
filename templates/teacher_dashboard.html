@@ -67,7 +67,7 @@
                     Progress</span>
                 <div class="w-full bg-surface-container h-2 rounded-full mt-2 overflow-hidden">
                     <div class="bg-primary-container h-full rounded-full transition-all duration-500"
-                        style="width: {{ avg_progress }}%;"></div>
+                        style="--progress-width: {{ avg_progress }}%; width: var(--progress-width);"></div>
                 </div>
             </div>
         </div>
@@ -196,8 +196,11 @@
                                         p.progress }}%</span>
                                 </div>
                                 <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
-                                    <div class="h-full rounded-full transition-all duration-300 {% if p.status == 'Overdue' %}bg-error{% elif p.status == 'Completed' %}bg-tertiary{% else %}bg-primary-container{% endif %}"
-                                        style="width: {{ p.progress }}%;"></div>
+                                    <svg class="block w-full h-2" viewBox="0 0 100 8" preserveAspectRatio="none"
+                                        role="img" aria-label="Progress {{ p.progress }}%">
+                                        <rect class="{% if p.status == 'Overdue' %}fill-error{% elif p.status == 'Completed' %}fill-tertiary{% else %}fill-primary-container{% endif %}"
+                                            x="0" y="0" width="{{ p.progress }}" height="8" rx="4"></rect>
+                                    </svg>
                                 </div>
                             </div>
                         </td>
