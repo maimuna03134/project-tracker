@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ code }}{% endblock %}
+
+{% block content %}
+{# Error page (403 / 404). Variables: code, message #}
+<div class="max-w-[1440px] w-full mx-auto px-gutter py-space-xl">
+    <div class="bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm text-center max-w-xl mx-auto mt-space-xl">
+        <div class="w-14 h-14 rounded-2xl bg-surface-container text-primary flex items-center justify-center mx-auto">
+            <span class="material-symbols-outlined text-[30px]">{% if code == 403 %}lock{% else %}search_off{% endif
+                %}</span>
+        </div>
+        <h1 class="font-headline-lg text-headline-lg text-on-surface mt-space-md">{{ code }}</h1>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-1">{{ message }}</p>
+        <a href="/dashboard"
+            class="inline-flex mt-3 px-4 py-2 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md">Dashboard
+            e jao</a>
+    </div>
+</div>
+{% endblock %}

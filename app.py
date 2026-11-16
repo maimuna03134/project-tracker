@@ -898,6 +898,19 @@ def feedback_delete(feedback_id):
     )
 
 # ------------------------------------------------------------
+#  Shundor error page (403 / 404)
+# ------------------------------------------------------------
+
+@app.errorhandler(403)
+@app.errorhandler(404)
+def error_page(error):
+    messages = {
+        403: 'Tomar ei kaj korar permission nai.',
+        404: 'Page ta paoa jay nai, ba ei project tomar na.',
+    }
+    return render_template('error.html', code=error.code, message=messages[error.code]), error.code
+
+# ------------------------------------------------------------
 #  Server chalu
 # ------------------------------------------------------------
 if __name__ == '__main__':
