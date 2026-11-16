@@ -97,7 +97,8 @@ is_owner, status_choices #}
                 </div>
                 <div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden flex">
                     <div class="h-full bg-gradient-to-r from-primary to-primary-container rounded-full transition-all duration-700"
-                       </div> style="`width: ${ project.progress }%`"></div>
+                    style="--progress-width: {{ project.progress }}%; width: var(--progress-width);">
+                    </div> 
                 </div>
                 <div
                     class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm pt-0.5">
