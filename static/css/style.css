@@ -2642,3 +2642,7 @@ video {
 .scroll-mt-24 {
     scroll-margin-top: 6rem
 }
+
+.items-end {
+    align-items: flex-end
+}

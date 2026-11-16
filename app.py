@@ -204,7 +204,7 @@ def dashboard():
 
     # Teacher dashboard pore banabo
     if user['role'] == 'teacher':
-        return render_template('coming_soon.html', title='Teacher Dashboard')
+        return teacher_dashboard(user)
 
     projects = get_projects(user)
 
@@ -473,6 +473,9 @@ def project_detail(project_id):
         (project_id,),
     )
 
+    for f in feedbacks:
+        f['can_delete'] = user['role'] == 'teacher' and user['id'] == f['teacher_id']
+
     return render_template(
         'project_detail.html',
         project=project,
@@ -482,7 +485,8 @@ def project_detail(project_id):
         comments=comments,
         attachments=attachments,
         feedbacks=feedbacks,
-        can_work=user['role'] == 'student',                                   # student member
+        can_work=user['role'] == 'student', # student member
+        is_teacher=user['role'] == 'teacher',
         is_owner=user['role'] == 'student' and user['id'] == project['created_by'],
         status_choices=helpers.STATUS_LABELS.items(),
     )
@@ -775,6 +779,123 @@ def file_too_large(error):
     flash('File ta 10 MB er beshi boro. Chhoto file dao.', 'error')
     return redirect(request.referrer or '/projects')
 
+
+# ------------------------------------------------------------
+#  Step 5: Teacher dashboard + Feedback (marks)
+# ------------------------------------------------------------
+
+# Teacher dashboard er filter button gulo
+TEACHER_FILTERS = ['In Progress', 'Completed', 'Overdue', 'Needs Feedback']
+
+
+def teacher_dashboard(user):
+    projects = get_projects(user)        # teacher shob project dekhe
+
+    # kon project e koyta feedback ache
+    counts = fetch_all("SELECT project_id, COUNT(*) AS c FROM feedbacks GROUP BY project_id")
+    feedback_counts = {row['project_id']: row['c'] for row in counts}
+    for p in projects:
+        p['feedback_count'] = feedback_counts.get(p['id'], 0)
+        # project lead er naam (members er moddhe je created_by)
+        p['lead_name'] = next((m['name'] for m in p['members'] if m['id'] == p['created_by']), '')
+
+    # upor er 4 ta card er sonkha
+    total = len(projects)
+    needs_feedback = sum(1 for p in projects if p['feedback_count'] == 0)
+    overdue = sum(1 for p in projects if p['status'] == 'Overdue')
+    avg_progress = int(sum(p['progress'] for p in projects) / total) if total else 0
+
+    # Filter + Search (URL er ?status=...&q=... theke ashe)
+    status = request.args.get('status', '')
+    q = request.args.get('q', '').strip()
+    if status not in TEACHER_FILTERS:
+        status = ''
+
+    shown = projects
+    if status == 'Needs Feedback':
+        shown = [p for p in shown if p['feedback_count'] == 0]
+    elif status:
+        shown = [p for p in shown if p['status'] == status]
+
+    if q:
+        # project title ba member er naam/email e khuji (% ar _ ke normal character dhori)
+        like = '%' + q.replace('\\', '\\\\').replace('%', '\\%').replace('_', '\\_') + '%'
+        rows = fetch_all(
+            "SELECT DISTINCT p.id FROM projects p "
+            "JOIN project_members m ON m.project_id = p.id JOIN users u ON u.id = m.user_id "
+            "WHERE p.title LIKE %s OR u.name LIKE %s OR u.email LIKE %s",
+            (like, like, like),
+        )
+        found_ids = [row['id'] for row in rows]
+        shown = [p for p in shown if p['id'] in found_ids]
+
+    return render_template(
+        'teacher_dashboard.html',
+        total=total,
+        needs_feedback=needs_feedback,
+        avg_progress=avg_progress,
+        overdue=overdue,
+        projects=shown,
+        status=status,
+        q=q,
+        filters=TEACHER_FILTERS,
+    )
+
+
+@app.route('/projects/<int:project_id>/feedback', methods=['POST'])
+@login_required
+def feedback_add(project_id):
+    user = current_user()
+    get_project_or_404(user, project_id)
+    if user['role'] != 'teacher':            # shudhu teacher feedback dite pare
+        abort(403)
+    back = '/projects/%d#feedback' % project_id
+
+    text = request.form['text'].strip()
+    marks_text = request.form.get('marks', '').strip()
+
+    if not text:
+        flash('Feedback likhte hobe.', 'error')
+        return redirect(back)
+
+    marks = None                              # marks optional (khali hole NULL)
+    if marks_text:
+        if not marks_text.isdigit() or int(marks_text) > 100:
+            flash('Marks 0 theke 100 er moddhe hote hobe.', 'error')
+            return redirect(back)
+        marks = int(marks_text)
+
+    execute(
+        "INSERT INTO feedbacks (project_id, teacher_id, text, marks) VALUES (%s, %s, %s, %s)",
+        (project_id, user['id'], text, marks),
+    )
+    flash('Feedback pathano hoyeche.', 'success')
+    return redirect(back)
+
+
+@app.route('/feedback/<int:feedback_id>/delete', methods=['GET', 'POST'])
+@login_required
+def feedback_delete(feedback_id):
+    user = current_user()
+    fb = fetch_one("SELECT * FROM feedbacks WHERE id = %s", (feedback_id,))
+    if fb is None:
+        abort(404)
+    if user['role'] != 'teacher' or fb['teacher_id'] != user['id']:      # shudhu je dise
+        abort(403)
+    back = '/projects/%d#feedback' % fb['project_id']
+
+    if request.method == 'POST':
+        execute("DELETE FROM feedbacks WHERE id = %s", (feedback_id,))
+        flash('Feedback delete hoyeche.', 'success')
+        return redirect(back)
+
+    return render_template(
+        'confirm_delete.html',
+        heading='Delete feedback?',
+        message='Tomar feedback ta (marks soho) muche jabe.',
+        action='/feedback/%d/delete' % feedback_id,
+        back=back,
+    )
 
 # ------------------------------------------------------------
 #  Server chalu

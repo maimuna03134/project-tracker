@@ -196,47 +196,120 @@ is_owner, status_choices #}
         </div>
     </section>
 
-    {# ================= 3. Teacher er feedback (student ar teacher duijon-i dekhe) ================= #}
-    {% if feedbacks %}
-    <section class="flex flex-col gap-space-md">
-        <div class="flex items-center gap-space-xs">
-            <span class="material-symbols-outlined text-primary text-[22px]">history_edu</span>
-            <h3 class="font-headline-sm text-headline-sm text-on-surface">Teacher Feedback</h3>
-            <span
-                class="px-space-xs py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm font-semibold">{{
-                feedbacks|length }} Review{{ 's' if feedbacks|length != 1 }}</span>
-        </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
-            {% for f in feedbacks %}
-            <article
-                class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-md transition-all flex items-start justify-between gap-space-md">
-                <div class="flex items-start gap-space-md flex-1 min-w-0">
+    {# ================= 3. Teacher feedback (teacher er form + shobar jonno list) ================= #}
+    {% if is_teacher or feedbacks %}
+    <div id="feedback" class="flex flex-col gap-space-xl scroll-mt-24">
+    
+        {# ---- Teacher er evaluation form (shudhu teacher dekhe) ---- #}
+        {% if is_teacher %}
+        <article class="bg-surface-container-lowest rounded-2xl shadow-md p-space-xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1.5 bg-primary"></div>
+            <div class="flex items-center gap-space-md pb-space-lg">
+                <div class="relative">
                     <div
-                        class="w-10 h-10 rounded-xl bg-surface-container text-primary flex items-center justify-center shrink-0">
-                        <span class="material-symbols-outlined text-[20px]">assignment_turned_in</span>
+                        class="w-12 h-12 rounded-xl bg-primary text-on-primary flex items-center justify-center font-title-md text-title-md shadow-md">
+                        {{ user.name|initials }}</div>
+                    <span
+                        class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[12px]">verified</span>
+                    </span>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-space-xs flex-wrap">
+                        <h2 class="font-title-md text-title-md text-on-surface font-semibold">Faculty Evaluation &amp;
+                            Feedback</h2>
+                        <span
+                            class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold">Teacher
+                            Mode</span>
                     </div>
-                    <div class="flex flex-col flex-1 min-w-0">
-                        <div class="flex flex-wrap items-center gap-space-sm mb-1">
-                            <span class="font-title-md text-title-md text-on-surface font-semibold">{{ f.teacher_name
-                                }}</span>
-                            <span class="text-on-surface-variant font-label-sm text-label-sm">&bull; {{
-                                f.created_at.strftime('%b %d, %Y') }}</span>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Evaluator: {{ user.name }}</p>
+                </div>
+            </div>
+    
+            <form action="/projects/{{ project.id }}/feedback" method="post"
+                class="grid grid-cols-1 md:grid-cols-12 gap-space-lg">
+                <div
+                    class="md:col-span-4 flex flex-col justify-center items-center p-space-md bg-surface-container-low rounded-xl text-center">
+                    <span
+                        class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-space-xs">Marks
+                        (optional)</span>
+                    <div class="flex items-baseline justify-center gap-1 my-space-xs">
+                        <input id="scoreInput" name="marks" type="number" min="0" max="100" placeholder="--"
+                            class="font-display-hero text-display-hero text-primary w-28 text-center bg-transparent font-bold focus:outline-none focus:bg-surface-container rounded-lg transition-colors leading-none" />
+                        <span class="font-headline-md text-headline-md text-on-surface-variant font-semibold">/ 100</span>
+                    </div>
+                </div>
+    
+                <div class="md:col-span-8 flex flex-col gap-space-sm">
+                    <label for="critiqueDraft" class="font-title-md text-title-md text-on-surface font-semibold">Written
+                        Feedback <span class="text-error">*</span></label>
+                    <textarea id="critiqueDraft" name="text" rows="6" required
+                        placeholder="Write your feedback: what is good, what needs to improve, and what the team should do next..."
+                        class="w-full bg-surface-container-low p-space-md font-body-md text-body-md text-on-surface placeholder:text-outline rounded-xl focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container/20 transition-all leading-relaxed"></textarea>
+                    <div class="flex items-center justify-between gap-space-md">
+                        <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px] text-tertiary">groups</span>Visible to all
+                            team members
+                        </span>
+                        <button type="submit"
+                            class="px-space-lg py-space-xs rounded-xl bg-primary text-on-primary hover:bg-primary-container font-label-md text-label-md transition-all flex items-center gap-space-xs shadow-md">
+                            <span class="material-symbols-outlined text-[18px]">verified</span><span>Submit Feedback</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </article>
+        {% endif %}
+    
+        {# ---- Feedback er list (student ar teacher duijon-i dekhe) ---- #}
+        {% if feedbacks %}
+        <section class="flex flex-col gap-space-md">
+            <div class="flex items-center gap-space-xs">
+                <span class="material-symbols-outlined text-primary text-[22px]">history_edu</span>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface">Teacher Feedback</h3>
+                <span
+                    class="px-space-xs py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm font-semibold">{{
+                    feedbacks|length }} Review{{ 's' if feedbacks|length != 1 }}</span>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
+                {% for f in feedbacks %}
+                <article
+                    class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-md transition-all flex items-start justify-between gap-space-md">
+                    <div class="flex items-start gap-space-md flex-1 min-w-0">
+                        <div
+                            class="w-10 h-10 rounded-xl bg-surface-container text-primary flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-[20px]">assignment_turned_in</span>
                         </div>
-                        <p
-                            class="font-body-md text-body-md text-on-surface-variant leading-relaxed whitespace-pre-line">
-                            {{ f.text }}</p>
+                        <div class="flex flex-col flex-1 min-w-0">
+                            <div class="flex flex-wrap items-center gap-space-sm mb-1">
+                                <span class="font-title-md text-title-md text-on-surface font-semibold">{{ f.teacher_name
+                                    }}</span>
+                                <span class="text-on-surface-variant font-label-sm text-label-sm">&bull; {{
+                                    f.created_at.strftime('%b %d, %Y') }}</span>
+                            </div>
+                            <p
+                                class="font-body-md text-body-md text-on-surface-variant leading-relaxed whitespace-pre-line">
+                                {{ f.text }}</p>
+                        </div>
                     </div>
-                </div>
-                {% if f.marks is not none %}
-                <div class="shrink-0 text-right">
-                    <span class="font-headline-sm text-headline-sm text-on-surface font-bold">{{ f.marks }}<span
-                            class="font-body-sm text-body-sm text-on-surface-variant font-normal">/100</span></span>
-                </div>
-                {% endif %}
-            </article>
-            {% endfor %}
-        </div>
-    </section>
+                    <div class="shrink-0 text-right flex flex-col items-end gap-1">
+                        {% if f.marks is not none %}
+                        <span class="font-headline-sm text-headline-sm text-on-surface font-bold">{{ f.marks }}<span
+                                class="font-body-sm text-body-sm text-on-surface-variant font-normal">/100</span></span>
+                        {% endif %}
+                        {% if f.can_delete %}
+                        <a href="/feedback/{{ f.id }}/delete" aria-label="Delete feedback" title="Delete feedback"
+                            class="text-outline hover:text-error flex">
+                            <span class="material-symbols-outlined text-[18px]">delete</span>
+                        </a>
+                        {% endif %}
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+    </div>
     {% endif %}
 
     {# ================= 4. Task board (3 column) ================= #}
